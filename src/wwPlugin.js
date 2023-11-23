@@ -17,12 +17,12 @@ export default {
         });
     },
     saveBeforeInstallPromptEvent(event) {
+        console.log('Saving install prompt event', event);
         event.preventDefault(); // Prevent the mini-infobar from appearing on mobile
         this.deferredInstallPrompt = event;
     },
     async promptAddToHomeScreen() {
-        console.log('PROMPT ADD TO HOME SCREEN 🔥', this);
-
+        console.log('Attempting to show install prompt', this.deferredInstallPrompt);
         if (!this.deferredInstallPrompt) {
             throw new Error('No install prompt available.');
         }
