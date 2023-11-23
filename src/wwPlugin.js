@@ -2,11 +2,40 @@ import { getMimeType, convertURLToFile } from './utils';
 
 export default {
     publicInstance: null,
+    deferredInstallPrompt: null,
     /*=============================================m_ÔÔ_m=============================================\
         Plugin API
     \================================================================================================*/
     async onLoad(settings) {
         console.log('PLUGIN ONLOAD 🔥', this);
+
+        window.addEventListener('beforeinstallprompt', e => {
+            // Assuming 'myPlugin' is an instance of your plugin
+            this.saveBeforeInstallPromptEvent(e);
+        });
+    },
+    saveBeforeInstallPromptEvent(event) {
+        event.preventDefault(); // Prevent the mini-infobar from appearing on mobile
+        this.deferredInstallPrompt = event;
+    },
+    async promptAddToHomeScreen() {
+        if (!this.deferredInstallPrompt) {
+            throw new Error('No install prompt available.');
+        }
+
+        this.deferredInstallPrompt.prompt();
+        const choiceResult = await this.deferredInstallPrompt.userChoice;
+
+        if (choiceResult.outcome !== 'accepted') {
+            throw new Error('User dismissed the install prompt.');
+        }
+
+        this.deferredInstallPrompt = null;
+    },
+    async promptInstall() {
+        this.plugin.promptAddToHomeScreen().catch(error => {
+            console.error('Installation failed:', error);
+        });
     },
     async geolocation() {
         if (!('geolocation' in navigator)) {
