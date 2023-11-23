@@ -36,8 +36,16 @@
     >
         <template #default="{ item, setItem }">
             <wwEditorInputRow
-                :model-value="item.value"
+                :model-value="item.key"
                 type="query"
+                small
+                bindable
+                placeholder="Enter the file name"
+                @update:model-value="setItem({ ...item, key: $event })"
+            />
+            <wwEditorInputRow
+                :model-value="item.value"
+                type="file"
                 small
                 bindable
                 placeholder="Enter a value"
