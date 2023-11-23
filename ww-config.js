@@ -6,9 +6,6 @@ export default {
                 icon: 'advanced',
                 edit: () => import('./src/components/Configuration/SettingsEdit.vue'),
                 summary: () => import('./src/components/Configuration/SettingsSummary.vue'),
-                getIsValid(settings) {
-                    return true;
-                },
             },
         ],
         designSystemId: 'TO BE DEFINED',
@@ -18,11 +15,19 @@ export default {
     variables: [],
     actions: [
         {
+            name: 'Geolocation',
+            code: 'geolocation',
+            isAsync: true,
+        },
+        {
             name: 'Share',
             code: 'share',
             isAsync: true,
             /* wwEditor:start */
             edit: () => import('./src/components/Functions/Share.vue'),
+            getIsValid({ share_title, share_url }) {
+                return !!share_title && !!share_url;
+            },
             /* wwEditor:end */
         },
     ],

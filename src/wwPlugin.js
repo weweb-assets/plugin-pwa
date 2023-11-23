@@ -16,7 +16,7 @@ export default {
                 navigator.geolocation.getCurrentPosition(resolve, reject);
             });
 
-            result = {
+            return {
                 coords: {
                     accuracy: response.coords.accuracy,
                     altitude: response.coords.altitude,
@@ -32,16 +32,19 @@ export default {
             throw new Error(error, 'Error while geolocation.');
         }
     },
-    async share() {
+    async share({ share_title, share_text, share_url, share_files }) {
+        console.log('SHARE', share_title, share_text, share_url, share_files);
+
         if (!('share' in navigator)) {
             throw new Error('Share is not available.');
         }
 
         try {
             const response = await navigator.share({
-                title: 'Web WorldWind',
-                text: 'Web WorldWind is a free, open-source virtual globe for web pages.',
-                url: 'https://worldwind.arc.nasa.gov/web/',
+                title: share_title,
+                text: share_text,
+                url: share_url,
+                files: share_files,
             });
         } catch (error) {
             throw new Error(error, 'Error while sharing.');

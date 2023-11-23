@@ -43,17 +43,8 @@
                 placeholder="Enter the file name"
                 @update:model-value="setItem({ ...item, key: $event })"
             />
-            <!-- <wwEditorInputRow
-                :model-value="item.value"
-                type="file"
-                small
-                bindable
-                placeholder="Enter a value"
-                @update:model-value="setItem({ ...item, value: $event })"
-            /> -->
             <wwEditorInputFile
                 :model-value="item.value"
-                bindable
                 small
                 @update:model-value="setItem({ ...item, value: $event })"
             />
