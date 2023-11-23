@@ -11,6 +11,8 @@ export default {
 
         window.addEventListener('beforeinstallprompt', e => {
             // Assuming 'myPlugin' is an instance of your plugin
+            console.log('Saving install prompt event', e);
+
             this.saveBeforeInstallPromptEvent(e);
         });
     },
@@ -19,6 +21,8 @@ export default {
         this.deferredInstallPrompt = event;
     },
     async promptAddToHomeScreen() {
+        console.log('PROMPT ADD TO HOME SCREEN 🔥', this);
+
         if (!this.deferredInstallPrompt) {
             throw new Error('No install prompt available.');
         }
