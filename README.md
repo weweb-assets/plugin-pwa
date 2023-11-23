@@ -1,4 +1,4 @@
-# PLUGIN-SUPABASE-AUTH
+# PLUGIN-PWA
 
 This is an plugin for [weweb.io](https://www.weweb.io/).
 
@@ -12,4 +12,4 @@ To serve locally, run `npm run serve --port=[PORT]`, and then go to Weweb editor
 
 ## Build
 
-Before release, you can check build error by running `npm run build --name="plugin-supabase-auth" --type="plugin"`
+Before release, you can check build error by running `npm run build --name="plugin-pwa" --type="plugin"`
