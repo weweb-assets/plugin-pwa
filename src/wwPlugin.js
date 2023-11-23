@@ -51,7 +51,7 @@ export default {
                 title: share_title,
                 text: share_text,
                 url: share_url,
-                files: files,
+                files,
             };
 
             if (navigator.canShare && navigator.canShare(shareData)) {
@@ -61,6 +61,17 @@ export default {
             }
         } catch (error) {
             throw new Error(error, 'Error while sharing.');
+        }
+    },
+    async vibrate(pattern) {
+        if (!('vibrate' in navigator)) {
+            throw new Error('Vibration is not available.');
+        }
+
+        try {
+            navigator.vibrate(pattern);
+        } catch (error) {
+            throw new Error(error, 'Error while triggering vibration.');
         }
     },
 };

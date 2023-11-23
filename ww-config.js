@@ -30,5 +30,16 @@ export default {
             },
             /* wwEditor:end */
         },
+        {
+            name: 'Vibrate',
+            code: 'vibrate',
+            isAsync: false,
+            /* wwEditor:start */
+            edit: () => import('./src/components/Functions/Vibrate.vue'),
+            getIsValid({ pattern }) {
+                return pattern && Array.isArray(pattern) && pattern.length > 0;
+            },
+            /* wwEditor:end */
+        },
     ],
 };
