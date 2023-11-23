@@ -99,15 +99,22 @@ export default {
                 throw new Error('Notification permission denied.');
             }
 
-            new Notification(notif_title, {
-                body: notif_body,
-                // icon: notif_icon,
-                // image: notif_image,
-                // tag: notif_tag,
-                // data: notif_data,
-                // vibrate: notif_vibrate,
-                // actions: notif_actions,
-            });
+            const registration = await navigator.serviceWorker.getRegistration();
+            if (registration) {
+                const options = {
+                    body: notif_body,
+                    icon: notif_icon,
+                    image: notif_image,
+                    tag: notif_tag,
+                    data: notif_data,
+                    vibrate: notif_vibrate,
+                    actions: notif_actions,
+                };
+
+                registration.showNotification(notif_title, options);
+            } else {
+                throw new Error('Service Worker registration not found.');
+            }
         } catch (error) {
             throw new Error(error, 'Error while sending notification.');
         }
