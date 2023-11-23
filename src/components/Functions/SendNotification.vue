@@ -16,10 +16,17 @@
         placeholder="Enter notification body"
         @update:modelValue="setBody"
     />
-    <label class="ww-editor-form-row__label label-sm"> Icon URL </label>
-    <wwEditorInputImage :model-value="notif_icon" bindable placeholder="Enter icon URL" @update:modelValue="setIcon" />
-    <label class="ww-editor-form-row__label label-sm"> Image URL </label>
-    <wwEditorInputImage
+    <wwEditorInputRow
+        label="Icon URL"
+        type="query"
+        :model-value="notif_icon"
+        bindable
+        placeholder="Enter icon URL"
+        @update:modelValue="setIcon"
+    />
+    <wwEditorInputRow
+        label="Image URL"
+        type="query"
         :model-value="notif_image"
         bindable
         placeholder="Enter image URL"
