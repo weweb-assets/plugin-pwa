@@ -43,7 +43,7 @@ export default {
             const files = await Promise.all(
                 share_files.map(async file => {
                     const mimeType = getMimeType(file.ext);
-                    return convertURLToFile(file.url, file.name, mimeType);
+                    return convertURLToFile('https://fastly.picsum.photos/id/822/200/300.jpg', file.name, mimeType);
                 })
             );
 
