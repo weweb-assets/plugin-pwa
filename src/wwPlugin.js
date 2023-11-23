@@ -66,15 +66,15 @@ export default {
             throw new Error(error, 'Error while sharing.');
         }
     },
-    async vibrate(pattern) {
-        console.log('VIBRATE', pattern);
+    async vibrate(vibrate_pattern) {
+        console.log('VIBRATE', vibrate_pattern);
 
         if (!('vibrate' in navigator)) {
             throw new Error('Vibration is not available.');
         }
 
         try {
-            navigator.vibrate(pattern);
+            navigator.vibrate(vibrate_pattern);
         } catch (error) {
             throw new Error(error, 'Error while triggering vibration.');
         }
