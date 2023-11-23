@@ -32,7 +32,7 @@
         :model-value="share_files"
         bindable
         @update:modelValue="setFiles"
-        @add-item="setMetadata([...(share_files || []), {}])"
+        @add-item="setFiles([...(share_files || []), {}])"
     >
         <template #default="{ item, setItem }">
             <wwEditorInputRow
