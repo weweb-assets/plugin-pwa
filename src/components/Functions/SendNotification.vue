@@ -16,12 +16,38 @@
         placeholder="Enter notification body"
         @update:modelValue="setBody"
     />
+    <label class="ww-editor-form-row__label label-sm"> Icon URL </label>
+    <wwEditorInputImage :model-value="notif_icon" bindable placeholder="Enter icon URL" @update:modelValue="setIcon" />
+    <label class="ww-editor-form-row__label label-sm"> Image URL </label>
     <wwEditorInputImage
-        label="Icon"
-        :model-value="notif_icon"
+        :model-value="notif_image"
         bindable
-        placeholder="Select an icon"
-        @update:modelValue="setIcon"
+        placeholder="Enter image URL"
+        @update:modelValue="setImage"
+    />
+    <wwEditorInputRow
+        label="Tag"
+        type="query"
+        :model-value="notif_tag"
+        bindable
+        placeholder="Enter notification tag"
+        @update:modelValue="setTag"
+    />
+    <wwEditorInputRow
+        label="Data (JSON format)"
+        type="query"
+        :model-value="notif_data"
+        bindable
+        placeholder="Enter notification data"
+        @update:modelValue="setData"
+    />
+    <wwEditorInputRow
+        label="Vibration Pattern (Array of numbers)"
+        type="array"
+        :model-value="notif_vibrate"
+        bindable
+        placeholder="Enter vibration pattern"
+        @update:modelValue="setVibrate"
     />
 </template>
 
@@ -42,6 +68,18 @@ export default {
         notif_icon() {
             return this.args.notif_icon;
         },
+        notif_image() {
+            return this.args.notif_image;
+        },
+        notif_tag() {
+            return this.args.notif_tag;
+        },
+        notif_data() {
+            return this.args.notif_data;
+        },
+        notif_vibrate() {
+            return this.args.notif_vibrate;
+        },
     },
     methods: {
         setTitle(notif_title) {
@@ -52,6 +90,18 @@ export default {
         },
         setIcon(notif_icon) {
             this.$emit('update:args', { ...this.args, notif_icon });
+        },
+        setImage(notif_image) {
+            this.$emit('update:args', { ...this.args, notif_image });
+        },
+        setTag(notif_tag) {
+            this.$emit('update:args', { ...this.args, notif_tag });
+        },
+        setData(notif_data) {
+            this.$emit('update:args', { ...this.args, notif_data });
+        },
+        setVibrate(notif_vibrate) {
+            this.$emit('update:args', { ...this.args, notif_vibrate });
         },
     },
 };
