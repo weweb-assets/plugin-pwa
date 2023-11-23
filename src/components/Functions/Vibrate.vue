@@ -2,7 +2,7 @@
     <wwEditorInputRow
         label="Vibration Pattern"
         type="array"
-        :model-value="pattern"
+        :model-value="vibrate_pattern"
         bindable
         required
         placeholder="Enter vibration pattern"
@@ -18,13 +18,13 @@ export default {
     },
     emits: ['update:args'],
     computed: {
-        pattern() {
-            return this.args.pattern;
+        vibrate_pattern() {
+            return this.args.vibrate_pattern;
         },
     },
     methods: {
-        setPattern(pattern) {
-            this.$emit('update:args', { ...this.args, pattern });
+        setPattern(vibrate_pattern) {
+            this.$emit('update:args', { ...this.args, vibrate_pattern });
         },
     },
 };

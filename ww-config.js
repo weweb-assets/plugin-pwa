@@ -36,8 +36,8 @@ export default {
             isAsync: false,
             /* wwEditor:start */
             edit: () => import('./src/components/Functions/Vibrate.vue'),
-            getIsValid({ pattern }) {
-                return pattern && Array.isArray(pattern) && pattern.length > 0;
+            getIsValid({ vibrate_pattern }) {
+                return vibrate_pattern && Array.isArray(vibrate_pattern) && vibrate_pattern.length > 0;
             },
             /* wwEditor:end */
         },

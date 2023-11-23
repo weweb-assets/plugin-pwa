@@ -35,6 +35,8 @@ export default {
         }
     },
     async share({ share_title, share_text, share_url, share_files }) {
+        console.log('SHARE', share_title, share_text, share_url, share_files);
+
         if (!('share' in navigator)) {
             throw new Error('Share is not available.');
         }
@@ -43,7 +45,7 @@ export default {
             const files = await Promise.all(
                 share_files.map(async file => {
                     const mimeType = getMimeType(file.ext);
-                    return convertURLToFile('https://fastly.picsum.photos/id/822/200/300.jpg', file.name, mimeType);
+                    return convertURLToFile(file.url, file.name, mimeType);
                 })
             );
 
@@ -64,6 +66,8 @@ export default {
         }
     },
     async vibrate(pattern) {
+        console.log('VIBRATE', pattern);
+
         if (!('vibrate' in navigator)) {
             throw new Error('Vibration is not available.');
         }
