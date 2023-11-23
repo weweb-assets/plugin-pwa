@@ -33,7 +33,7 @@ export default {
         this.deferredInstallPrompt = null;
     },
     async promptInstall() {
-        this.plugin.promptAddToHomeScreen().catch(error => {
+        this.promptAddToHomeScreen().catch(error => {
             console.error('Installation failed:', error);
         });
     },
