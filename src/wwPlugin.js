@@ -101,12 +101,12 @@ export default {
 
             new Notification(notif_title, {
                 body: notif_body,
-                icon: notif_icon,
-                image: notif_image,
-                tag: notif_tag,
-                data: notif_data,
-                vibrate: notif_vibrate,
-                actions: notif_actions,
+                // icon: notif_icon,
+                // image: notif_image,
+                // tag: notif_tag,
+                // data: notif_data,
+                // vibrate: notif_vibrate,
+                // actions: notif_actions,
             });
         } catch (error) {
             throw new Error(error, 'Error while sending notification.');
