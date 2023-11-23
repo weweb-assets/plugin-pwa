@@ -41,5 +41,16 @@ export default {
             },
             /* wwEditor:end */
         },
+        {
+            name: 'Send Notification',
+            code: 'sendNotification',
+            isAsync: true,
+            /* wwEditor:start */
+            edit: () => import('./src/components/Functions/SendNotification.vue'),
+            getIsValid({ title, body }) {
+                return !!title && !!body;
+            },
+            /* wwEditor:end */
+        },
     ],
 };

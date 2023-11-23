@@ -79,4 +79,20 @@ export default {
             throw new Error(error, 'Error while triggering vibration.');
         }
     },
+    async sendNotification({ title, options }) {
+        if (!('Notification' in window)) {
+            throw new Error('Notifications are not available.');
+        }
+
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission !== 'granted') {
+                throw new Error('Notification permission denied.');
+            }
+
+            new Notification(title, options);
+        } catch (error) {
+            throw new Error(error, 'Error while sending notification.');
+        }
+    },
 };
