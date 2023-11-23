@@ -47,8 +47,8 @@ export default {
             isAsync: true,
             /* wwEditor:start */
             edit: () => import('./src/components/Functions/SendNotification.vue'),
-            getIsValid({ title, body }) {
-                return !!title && !!body;
+            getIsValid({ notif_title, notif_body }) {
+                return !!notif_title && !!notif_body;
             },
             /* wwEditor:end */
         },
