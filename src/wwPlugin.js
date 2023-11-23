@@ -44,6 +44,7 @@ export default {
         try {
             const files = await Promise.all(
                 share_files.map(async file => {
+                    console.log(file);
                     const mimeType = getMimeType(file.ext);
                     return convertURLToFile(file.url, file.name, mimeType);
                 })
