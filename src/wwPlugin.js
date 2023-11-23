@@ -9,10 +9,15 @@ export default {
     async onLoad(settings) {
         console.log('PLUGIN ONLOAD 🔥', this);
 
-        window.addEventListener('beforeinstallprompt', e => {
+        wwLib.getEditorWindow().addEventListener('beforeinstallprompt', e => {
             // Assuming 'myPlugin' is an instance of your plugin
-            console.log('Saving install prompt event', e);
+            console.log('Plugin instance in event listener', this);
+            this.saveBeforeInstallPromptEvent(e);
+        });
 
+        wwLib.getFrontWindow().addEventListener('beforeinstallprompt', e => {
+            // Assuming 'myPlugin' is an instance of your plugin
+            console.log('Plugin instance in event listener', this);
             this.saveBeforeInstallPromptEvent(e);
         });
     },
