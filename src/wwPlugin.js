@@ -66,7 +66,7 @@ export default {
             throw new Error(error, 'Error while sharing.');
         }
     },
-    async vibrate(vibrate_pattern) {
+    async vibrate({ vibrate_pattern }) {
         console.log('VIBRATE', vibrate_pattern);
 
         if (!('vibrate' in navigator)) {
