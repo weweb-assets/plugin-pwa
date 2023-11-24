@@ -2,22 +2,20 @@ import { getMimeType, convertURLToFile } from './utils';
 
 export default {
     publicInstance: null,
-    deferredInstallPrompt: null,
+    // deferredInstallPrompt: null,
     /*=============================================m_ÔÔ_m=============================================\
         Plugin API
     \================================================================================================*/
     async onLoad(settings) {
-        console.log('PLUGIN ONLOAD 🔥', this);
-
-        wwLib.getEditorWindow().addEventListener('beforeinstallprompt', e => {
-            console.log('Plugin instance in event listener', this);
-            this.saveBeforeInstallPromptEvent(e);
-        });
-
-        wwLib.getFrontWindow().addEventListener('beforeinstallprompt', e => {
-            console.log('Plugin instance in event listener', this);
-            this.saveBeforeInstallPromptEvent(e);
-        });
+        // console.log('PLUGIN ONLOAD 🔥', this);
+        // wwLib.getEditorWindow().addEventListener('beforeinstallprompt', e => {
+        //     console.log('Plugin instance in event listener', this);
+        //     this.saveBeforeInstallPromptEvent(e);
+        // });
+        // wwLib.getFrontWindow().addEventListener('beforeinstallprompt', e => {
+        //     console.log('Plugin instance in event listener', this);
+        //     this.saveBeforeInstallPromptEvent(e);
+        // });
     },
     saveBeforeInstallPromptEvent(event) {
         console.log('Saving install prompt event', event);

@@ -14,11 +14,11 @@ export default {
     },
     variables: [],
     actions: [
-        {
-            name: 'Add To Home Screen',
-            code: 'promptInstall',
-            isAsync: true,
-        },
+        // {
+        //     name: 'Add To Home Screen',
+        //     code: 'promptInstall',
+        //     isAsync: true,
+        // },
         {
             name: 'Geolocation',
             code: 'geolocation',
