@@ -1,17 +1,20 @@
-export async function connectBluetooth(bluetoothServices) {
+export async function connectBluetooth({ bluetoothServices }) {
     if (!navigator.bluetooth) {
         throw new Error('Bluetooth is not available.');
     }
 
+    if (!Array.isArray(bluetoothServices)) {
+        throw new Error('Invalid input: bluetoothServices must be an array');
+    }
+
     try {
         const device = await navigator.bluetooth.requestDevice({
-            acceptAllDevices: true, // Modify as needed
+            acceptAllDevices: true,
             optionalServices: bluetoothServices.map(service => service.key),
         });
 
         const server = await device.gatt.connect();
 
-        // Discover services
         const services = await server.getPrimaryServices();
 
         let characteristicsMap = {};
