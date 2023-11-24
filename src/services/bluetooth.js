@@ -1,12 +1,12 @@
-export async function connectBluetooth(bluetoothOptions) {
+export async function connectBluetooth({ bluetoothServices }) {
     if (!navigator.bluetooth) {
         throw new Error('Bluetooth is not available.');
     }
 
     try {
         const device = await navigator.bluetooth.requestDevice({
-            acceptAllDevices: bluetoothOptions.acceptAllDevices,
-            optionalServices: bluetoothOptions.bluetoothServices.map(service => service.key),
+            acceptAllDevices: true,
+            optionalServices: bluetoothServices.map(service => service.key),
         });
 
         const server = await device.gatt.connect();
