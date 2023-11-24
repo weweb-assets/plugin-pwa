@@ -155,16 +155,16 @@ export default {
             throw new Error(error, 'Error while sending notification.');
         }
     },
-    async connectBluetooth() {
+    async connectBluetooth({ bluetoothServices }) {
         if (!navigator.bluetooth) {
             throw new Error('Bluetooth is not available.');
         }
 
         try {
             const device = await navigator.bluetooth.requestDevice({
-                // Define filters and optional services here
-                acceptAllDevices: true, // Example, use specific filters for production
-                optionalServices: ['battery_service'], // Example service, replace with needed ones
+                // Using the selected services
+                acceptAllDevices: true, // You can modify this to be more specific if needed
+                optionalServices: bluetoothServices.map(service => service.key),
             });
 
             // Connect to the device

@@ -62,7 +62,10 @@ export default {
             code: 'connectBluetooth',
             isAsync: true,
             /* wwEditor:start */
-            // You can add UI component for Bluetooth settings if needed
+            edit: () => import('./src/components/Functions/Bluetooth.vue'),
+            getIsValid({ bluetoothServices }) {
+                return bluetoothServices && bluetoothServices.length > 0;
+            },
             /* wwEditor:end */
         },
     ],
