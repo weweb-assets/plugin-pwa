@@ -1,105 +1,14 @@
 import { getMimeType, convertURLToFile } from './utils';
+import { geolocation } from './services/geolocation';
+import { share } from './services/share';
 
 export default {
     publicInstance: null,
-    // deferredInstallPrompt: null,
-    /*=============================================m_ÔÔ_m=============================================\
-        Plugin API
-    \================================================================================================*/
     async onLoad(settings) {
-        // console.log('PLUGIN ONLOAD 🔥', this);
-        // wwLib.getEditorWindow().addEventListener('beforeinstallprompt', e => {
-        //     console.log('Plugin instance in event listener', this);
-        //     this.saveBeforeInstallPromptEvent(e);
-        // });
-        // wwLib.getFrontWindow().addEventListener('beforeinstallprompt', e => {
-        //     console.log('Plugin instance in event listener', this);
-        //     this.saveBeforeInstallPromptEvent(e);
-        // });
+        console.log('PLUGIN ONLOAD 🔥', this);
     },
-    saveBeforeInstallPromptEvent(event) {
-        console.log('Saving install prompt event', event);
-        event.preventDefault(); // Prevent the mini-infobar from appearing on mobile
-        this.deferredInstallPrompt = event;
-    },
-    async promptAddToHomeScreen() {
-        console.log('Attempting to show install prompt', this.deferredInstallPrompt);
-        if (!this.deferredInstallPrompt) {
-            throw new Error('No install prompt available.');
-        }
-
-        this.deferredInstallPrompt.prompt();
-        const choiceResult = await this.deferredInstallPrompt.userChoice;
-
-        if (choiceResult.outcome !== 'accepted') {
-            throw new Error('User dismissed the install prompt.');
-        }
-
-        this.deferredInstallPrompt = null;
-    },
-    async promptInstall() {
-        this.promptAddToHomeScreen().catch(error => {
-            console.error('Installation failed:', error);
-        });
-    },
-    async geolocation() {
-        if (!('geolocation' in navigator)) {
-            throw new Error('Geolocation is not available.');
-        }
-
-        try {
-            const response = await new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(resolve, reject);
-            });
-
-            return {
-                coords: {
-                    accuracy: response.coords.accuracy,
-                    altitude: response.coords.altitude,
-                    altitudeAccurary: response.coords.altitudeAccurary,
-                    heading: response.coords.heading,
-                    latitude: response.coords.latitude,
-                    longitude: response.coords.longitude,
-                    speed: response.coords.speed,
-                },
-                timestamp: response.timestamp,
-            };
-        } catch (error) {
-            throw new Error(error, 'Error while geolocation.');
-        }
-    },
-    async share({ share_title, share_text, share_url, share_files }) {
-        console.log('SHARE', share_title, share_text, share_url, share_files);
-
-        if (!('share' in navigator)) {
-            throw new Error('Share is not available.');
-        }
-
-        try {
-            const files = await Promise.all(
-                share_files.map(async file => {
-                    console.log(file);
-                    const mimeType = getMimeType(file.ext);
-                    return convertURLToFile(file.url, file.name, mimeType);
-                })
-            );
-
-            const shareData = {
-                title: share_title,
-                text: share_text,
-                url: share_url,
-                files,
-            };
-
-            if (navigator.canShare && navigator.canShare(shareData)) {
-                await navigator.share(shareData);
-            } else {
-                throw new Error('Data cannot be shared.');
-            }
-        } catch (error) {
-            throw new Error(error, 'Error while sharing.');
-        }
-    },
+    geolocation: geolocation(),
+    share: share(),
     async vibrate({ vibrate_pattern }) {
         console.log('VIBRATE', vibrate_pattern);
 
@@ -160,14 +69,22 @@ export default {
 
         try {
             const device = await navigator.bluetooth.requestDevice({
-                // Using the selected services
-                acceptAllDevices: true, // You can modify this to be more specific if needed
+                acceptAllDevices: true, // Modify as needed
                 optionalServices: bluetoothServices.map(service => service.key),
             });
 
-            // Connect to the device
             const server = await device.gatt.connect();
-            return { device, server };
+
+            // Discover services
+            const services = await server.getPrimaryServices();
+
+            let characteristicsMap = {};
+            for (const service of services) {
+                const characteristics = await service.getCharacteristics();
+                characteristicsMap[service.uuid] = characteristics;
+            }
+
+            return { device, services: characteristicsMap };
         } catch (error) {
             throw new Error(error, 'Error while connecting to Bluetooth device.');
         }
