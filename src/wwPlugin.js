@@ -7,8 +7,8 @@ export default {
     async onLoad(settings) {
         console.log('PLUGIN ONLOAD 🔥', this);
     },
-    geolocation: geolocation(),
-    share: share(),
+    geolocation: await geolocation(),
+    share: await share(settings),
     async vibrate({ vibrate_pattern }) {
         console.log('VIBRATE', vibrate_pattern);
 
