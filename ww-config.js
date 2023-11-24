@@ -57,5 +57,13 @@ export default {
             },
             /* wwEditor:end */
         },
+        {
+            name: 'Connect Bluetooth',
+            code: 'connectBluetooth',
+            isAsync: true,
+            /* wwEditor:start */
+            // You can add UI component for Bluetooth settings if needed
+            /* wwEditor:end */
+        },
     ],
 };

@@ -10,13 +10,11 @@ export default {
         console.log('PLUGIN ONLOAD 🔥', this);
 
         wwLib.getEditorWindow().addEventListener('beforeinstallprompt', e => {
-            // Assuming 'myPlugin' is an instance of your plugin
             console.log('Plugin instance in event listener', this);
             this.saveBeforeInstallPromptEvent(e);
         });
 
         wwLib.getFrontWindow().addEventListener('beforeinstallprompt', e => {
-            // Assuming 'myPlugin' is an instance of your plugin
             console.log('Plugin instance in event listener', this);
             this.saveBeforeInstallPromptEvent(e);
         });
@@ -155,6 +153,25 @@ export default {
             }
         } catch (error) {
             throw new Error(error, 'Error while sending notification.');
+        }
+    },
+    async connectBluetooth() {
+        if (!navigator.bluetooth) {
+            throw new Error('Bluetooth is not available.');
+        }
+
+        try {
+            const device = await navigator.bluetooth.requestDevice({
+                // Define filters and optional services here
+                acceptAllDevices: true, // Example, use specific filters for production
+                optionalServices: ['battery_service'], // Example service, replace with needed ones
+            });
+
+            // Connect to the device
+            const server = await device.gatt.connect();
+            return { device, server };
+        } catch (error) {
+            throw new Error(error, 'Error while connecting to Bluetooth device.');
         }
     },
 };
