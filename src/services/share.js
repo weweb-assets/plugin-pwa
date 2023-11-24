@@ -1,4 +1,4 @@
-export async function share(share_title, share_text, share_url, share_files) {
+export async function share({ share_title, share_text, share_url, share_files }) {
     if (!('share' in navigator)) {
         throw new Error('Share is not available.');
     }

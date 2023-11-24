@@ -3,6 +3,7 @@ import { geolocation } from './services/geolocation';
 import { share } from './services/share';
 import { vibrate } from './services/vibrate';
 import { sendNotification } from './services/notification';
+import { connectBluetooth } from './services/bluetooth';
 
 export default {
     publicInstance: null,
@@ -12,40 +13,16 @@ export default {
     async geolocation() {
         return geolocation();
     },
-    async share({ share_title, share_text, share_url, share_files }) {
-        return share(share_title, share_text, share_url, share_files);
+    async share(shareOptions) {
+        return share(shareOptions);
     },
-    async vibrate({ vibrate_pattern }) {
-        return vibrate(vibrate_pattern);
+    async vibrate(vibrateOptions) {
+        return vibrate(vibrateOptions);
     },
     async sendNotification(notificationOptions) {
         return sendNotification(notificationOptions);
     },
-    async connectBluetooth({ bluetoothServices }) {
-        if (!navigator.bluetooth) {
-            throw new Error('Bluetooth is not available.');
-        }
-
-        try {
-            const device = await navigator.bluetooth.requestDevice({
-                acceptAllDevices: true, // Modify as needed
-                optionalServices: bluetoothServices.map(service => service.key),
-            });
-
-            const server = await device.gatt.connect();
-
-            // Discover services
-            const services = await server.getPrimaryServices();
-
-            let characteristicsMap = {};
-            for (const service of services) {
-                const characteristics = await service.getCharacteristics();
-                characteristicsMap[service.uuid] = characteristics;
-            }
-
-            return { device, services: characteristicsMap };
-        } catch (error) {
-            throw new Error(error, 'Error while connecting to Bluetooth device.');
-        }
+    async connectBluetooth(bluetoothOptions) {
+        return connectBluetooth(bluetoothOptions);
     },
 };

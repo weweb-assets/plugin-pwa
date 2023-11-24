@@ -1,4 +1,4 @@
-export async function vibrate(vibrate_pattern) {
+export async function vibrate({ vibrate_pattern }) {
     if (!('vibrate' in navigator)) {
         throw new Error('Vibration is not available.');
     }
