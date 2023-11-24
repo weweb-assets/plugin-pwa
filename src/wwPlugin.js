@@ -1,66 +1,25 @@
 import { getMimeType, convertURLToFile } from './utils';
 import { geolocation } from './services/geolocation';
 import { share } from './services/share';
+import { vibrate } from './services/vibrate';
+import { sendNotification } from './services/notification';
 
 export default {
     publicInstance: null,
     async onLoad(settings) {
         console.log('PLUGIN ONLOAD 🔥', this);
     },
-    geolocation: await geolocation(),
-    share: await share({ share_title, share_text, share_url, share_files }),
-    async vibrate({ vibrate_pattern }) {
-        console.log('VIBRATE', vibrate_pattern);
-
-        if (!('vibrate' in navigator)) {
-            throw new Error('Vibration is not available.');
-        }
-
-        try {
-            navigator.vibrate(vibrate_pattern);
-        } catch (error) {
-            throw new Error(error, 'Error while triggering vibration.');
-        }
+    async geolocation() {
+        return geolocation();
     },
-    async sendNotification({
-        notif_title,
-        notif_body,
-        notif_icon,
-        notif_image,
-        notif_tag,
-        notif_data,
-        notif_vibrate,
-        notif_actions,
-    }) {
-        if (!('Notification' in window)) {
-            throw new Error('Notifications are not available.');
-        }
-
-        try {
-            const permission = await Notification.requestPermission();
-            if (permission !== 'granted') {
-                throw new Error('Notification permission denied.');
-            }
-
-            const registration = await navigator.serviceWorker.getRegistration();
-            if (registration) {
-                const options = {
-                    body: notif_body,
-                    icon: notif_icon,
-                    image: notif_image,
-                    tag: notif_tag,
-                    data: notif_data,
-                    vibrate: notif_vibrate,
-                    actions: notif_actions,
-                };
-
-                registration.showNotification(notif_title, options);
-            } else {
-                throw new Error('Service Worker registration not found.');
-            }
-        } catch (error) {
-            throw new Error(error, 'Error while sending notification.');
-        }
+    async share({ share_title, share_text, share_url, share_files }) {
+        return share(share_title, share_text, share_url, share_files);
+    },
+    async vibrate({ vibrate_pattern }) {
+        return vibrate(vibrate_pattern);
+    },
+    async sendNotification(notificationOptions) {
+        return sendNotification(notificationOptions);
     },
     async connectBluetooth({ bluetoothServices }) {
         if (!navigator.bluetooth) {
