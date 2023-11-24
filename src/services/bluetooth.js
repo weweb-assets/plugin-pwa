@@ -24,4 +24,4 @@ export async function connectBluetooth(bluetoothServices) {
     } catch (error) {
         throw new Error(error, 'Error while connecting to Bluetooth device.');
     }
-},
+}
