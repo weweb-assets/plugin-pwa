@@ -1,5 +1,3 @@
-import { reactive } from 'vue';
-
 // import { getMimeType, convertURLToFile } from './utils';
 import { geolocation } from './services/geolocation';
 import { share } from './services/share';
@@ -7,16 +5,16 @@ import { vibrate } from './services/vibrate';
 import { sendNotification } from './services/notification';
 import { connectBluetooth } from './services/bluetooth';
 
-import { useNetwork, useBattery, useOnline, usePageVisibility } from './variables';
+import { listenNetwork, listenBattery, listenOnline, listenPageVisibility } from './variables';
 
 export default {
     async onLoad(settings) {
-        console.log('Plugin loaded 🔥', this);
+        listenNetwork(this.id);
+        listenBattery(this.id);
+        listenOnline(this.id);
+        listenPageVisibility(this.id);
 
-        useNetwork(this.id);
-        useBattery(this.id);
-        useOnline(this.id);
-        usePageVisibility(this.id);
+        console.log('Plugin loaded 🔥', this);
     },
     async geolocation() {
         return geolocation();

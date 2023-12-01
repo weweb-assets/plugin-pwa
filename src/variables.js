@@ -26,7 +26,7 @@ const getWindow = () => {
     return wndw;
 };
 
-export const useNetwork = pluginId => {
+export const listenNetwork = pluginId => {
     let isOnline = navigator.onLine;
     let connectionType = navigator.connection ? navigator.connection.effectiveType : 'unknown';
 
@@ -49,7 +49,7 @@ export const useNetwork = pluginId => {
     handleNetworkChange();
 };
 
-export const useBattery = pluginId => {
+export const listenBattery = pluginId => {
     let batteryStatus = null;
 
     const handleBatteryChange = () => {
@@ -75,7 +75,7 @@ export const useBattery = pluginId => {
     handleBatteryChange();
 };
 
-export const useOnline = pluginId => {
+export const listenOnline = pluginId => {
     let isOnline = navigator.onLine;
 
     const handleOnlineStatus = () => {
@@ -90,7 +90,7 @@ export const useOnline = pluginId => {
     handleOnlineStatus();
 };
 
-export const usePageVisibility = pluginId => {
+export const listenPageVisibility = pluginId => {
     let isVisible;
     const doc = getDocument();
 
