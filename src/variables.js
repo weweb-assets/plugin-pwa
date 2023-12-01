@@ -42,6 +42,8 @@ export const useNetwork = pluginId => {
             isOnline: isOnline.value,
             connectionType: connectionType.value,
         });
+
+        console.log(`${pluginId}-network`, { isOnline, connectionType });
     };
 
     onMounted(() => {
@@ -62,8 +64,6 @@ export const useNetwork = pluginId => {
         }
     });
 
-    console.log('TOTO', { isOnline, connectionType });
-
     return { isOnline, connectionType };
 };
 
@@ -80,6 +80,8 @@ export const useBattery = pluginId => {
         };
 
         wwLib.wwVariable.updateValue(`${pluginId}-battery`, batteryStatus.value);
+
+        console.log(`${pluginId}-battery`, batteryStatus.value);
     };
 
     onMounted(() => {
@@ -111,6 +113,8 @@ export const useOnline = pluginId => {
     const handleOnlineStatus = () => {
         isOnline.value = navigator.onLine;
         wwLib.wwVariable.updateValue(`${pluginId}-online`, isOnline.value);
+
+        console.log(`${pluginId}-online`, isOnline.value);
     };
 
     onMounted(() => {
@@ -135,6 +139,8 @@ export const usePageVisibility = pluginId => {
     const handleVisibilityChange = () => {
         isVisible.value = !doc.hidden;
         wwLib.wwVariable.updateValue(`${pluginId}-pageVisibility`, isVisible.value);
+
+        console.log(`${pluginId}-pageVisibility`, isVisible.value);
     };
 
     onMounted(() => {
