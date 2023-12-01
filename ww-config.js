@@ -12,7 +12,13 @@ export default {
         // QR Code
         // Media Capute
     },
-    variables: [],
+    variables: [
+        { name: 'network', value: 'network', type: 'object', defaultValue: null },
+        { name: 'battery', value: 'battery', type: 'object', defaultValue: null },
+        { name: 'online', value: 'online', type: 'boolean', defaultValue: null },
+        { name: 'pageVisibility', value: 'pageVisibility', type: 'boolean', defaultValue: null },
+        { name: 'orientation', value: 'orientation', type: 'object', defaultValue: null },
+    ],
     actions: [
         // {
         //     name: 'Add To Home Screen',
