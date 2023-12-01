@@ -32,6 +32,8 @@ export const useNetwork = pluginId => {
     const isOnline = ref(navigator.onLine);
     const connectionType = ref(navigator.connection ? navigator.connection.effectiveType : 'unknown');
 
+    console.log(`${pluginId}-network`, { isOnline, connectionType });
+
     const handleNetworkChange = () => {
         isOnline.value = navigator.onLine;
         if (navigator.connection) {
