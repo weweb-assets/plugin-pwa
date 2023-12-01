@@ -9,7 +9,7 @@ import { connectBluetooth } from './services/bluetooth';
 
 import { useNetwork, useBattery, useOnline, usePageVisibility } from './variables';
 
-export const VARIABLES = reactive({
+const VARIABLES = reactive({
     networkStatus: null,
     batteryStatus: null,
     onlineStatus: null,
