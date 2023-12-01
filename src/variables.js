@@ -30,6 +30,8 @@ export const listenNetwork = pluginId => {
     let isOnline = navigator.onLine;
     let connectionType = navigator.connection ? navigator.connection.effectiveType : 'unknown';
 
+    console.log('navigator.connection', navigator.connection);
+
     const handleNetworkChange = () => {
         isOnline = navigator.onLine;
         if (navigator.connection) {
@@ -55,6 +57,8 @@ export const listenBattery = pluginId => {
     const handleBatteryChange = () => {
         const battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
 
+        console.log('battery', battery, navigator.battery, navigator.webkitBattery, navigator.mozBattery);
+
         if (battery) {
             batteryStatus.value = {
                 level: battery.level || null,
@@ -64,6 +68,7 @@ export const listenBattery = pluginId => {
             };
 
             wwLib.wwVariable.updateValue(`${pluginId}-battery`, batteryStatus.value);
+            console.log('battery', batteryStatus.value);
         }
     };
 
@@ -83,7 +88,9 @@ export const listenOnline = pluginId => {
 
     const handleOnlineStatus = () => {
         isOnline = navigator.onLine;
+
         wwLib.wwVariable.updateValue(`${pluginId}-online`, isOnline);
+        console.log('online', isOnline);
     };
 
     const wndw = getWindow();
@@ -102,6 +109,7 @@ export const listenPageVisibility = pluginId => {
     const handleVisibilityChange = () => {
         isVisible = !doc.hidden;
         wwLib.wwVariable.updateValue(`${pluginId}-pageVisibility`, isVisible);
+        console.log('pageVisibility', isVisible);
     };
 
     doc.addEventListener('visibilitychange', handleVisibilityChange);
