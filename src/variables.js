@@ -28,17 +28,14 @@ const getWindow = () => {
 
 export const listenNetwork = pluginId => {
     let isOnline = navigator.onLine;
-    let connectionType = navigator.connection ? navigator.connection.effectiveType : 'unknown';
-
-    console.log('navigator.connection', navigator.connection);
 
     const handleNetworkChange = () => {
         isOnline = navigator.onLine;
         if (navigator.connection) {
-            connectionType = navigator.connection.effectiveType;
+            connection = navigator.connection;
         }
 
-        wwLib.wwVariable.updateValue(`${pluginId}-network`, { isOnline, connectionType });
+        wwLib.wwVariable.updateValue(`${pluginId}-network`, { isOnline, connection });
     };
 
     const wndw = getWindow();
@@ -56,8 +53,6 @@ export const listenBattery = pluginId => {
 
     const handleBatteryChange = () => {
         const battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
-
-        console.log('battery', battery, navigator.battery, navigator.webkitBattery, navigator.mozBattery);
 
         if (battery) {
             batteryStatus.value = {
