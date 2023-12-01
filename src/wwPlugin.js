@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { reactive } from 'vue';
 
 // import { getMimeType, convertURLToFile } from './utils';
 import { geolocation } from './services/geolocation';
@@ -9,14 +9,21 @@ import { connectBluetooth } from './services/bluetooth';
 
 import { useNetwork, useBattery, useOnline, usePageVisibility } from './variables';
 
-export default {
-    networkStatus: useNetwork(this.id),
-    batteryStatus: useBattery(this.id),
-    onlineStatus: useOnline(this.id),
-    pageVisibility: usePageVisibility(this.id),
+export const VARIABLES = reactive({
+    networkStatus: null,
+    batteryStatus: null,
+    onlineStatus: null,
+    pageVisibility: null,
+});
 
+export default {
     async onLoad(settings) {
         console.log('Plugin loaded 🔥', this);
+
+        VARIABLES.networkStatus = useNetwork(this.id);
+        VARIABLES.batteryStatus = useBattery(this.id);
+        VARIABLES.onlineStatus = useOnline(this.id);
+        VARIABLES.pageVisibility = usePageVisibility(this.id);
     },
     async geolocation() {
         return geolocation();
