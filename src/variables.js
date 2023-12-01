@@ -1,5 +1,3 @@
-import { ref, onMounted, onUnmounted } from 'vue';
-
 const getDocument = () => {
     let doc;
 
@@ -28,112 +26,87 @@ const getWindow = () => {
     return wndw;
 };
 
+const updateValue = (key, value) => {
+    // Perform the variable update using the provided key and value
+    console.log(`Updating ${key} with value:`, value);
+    // For example: wwLib.wwVariable.updateValue(key, value);
+};
+
 export const useNetwork = pluginId => {
-    const isOnline = ref(navigator.onLine);
-    const connectionType = ref(navigator.connection ? navigator.connection.effectiveType : 'unknown');
+    let isOnline = navigator.onLine;
+    let connectionType = navigator.connection ? navigator.connection.effectiveType : 'unknown';
 
     console.log(`${pluginId}-network`, { isOnline, connectionType });
 
     const handleNetworkChange = () => {
-        isOnline.value = navigator.onLine;
+        isOnline = navigator.onLine;
         if (navigator.connection) {
-            connectionType.value = navigator.connection.effectiveType;
+            connectionType = navigator.connection.effectiveType;
         }
 
-        wwLib.wwVariable.updateValue(`${pluginId}-network`, {
-            isOnline: isOnline.value,
-            connectionType: connectionType.value,
+        updateValue(`${pluginId}-network`, {
+            isOnline,
+            connectionType,
         });
 
         console.log(`${pluginId}-network`, { isOnline, connectionType });
     };
 
-    onMounted(() => {
-        const wndw = getWindow();
-        wndw.addEventListener('online', handleNetworkChange);
-        wndw.addEventListener('offline', handleNetworkChange);
-        if (navigator.connection) {
-            navigator.connection.addEventListener('change', handleNetworkChange);
-        }
+    const wndw = getWindow();
+    wndw.addEventListener('online', handleNetworkChange);
+    wndw.addEventListener('offline', handleNetworkChange);
+    if (navigator.connection) {
+        navigator.connection.addEventListener('change', handleNetworkChange);
+    }
 
-        handleNetworkChange();
-    });
-
-    onUnmounted(() => {
-        const wndw = getWindow();
-        wndw.removeEventListener('online', handleNetworkChange);
-        wndw.removeEventListener('offline', handleNetworkChange);
-        if (navigator.connection) {
-            navigator.connection.removeEventListener('change', handleNetworkChange);
-        }
-    });
+    handleNetworkChange();
 
     return { isOnline, connectionType };
 };
 
 export const useBattery = pluginId => {
-    const batteryStatus = ref(null);
+    let batteryStatus = null;
 
     const handleBatteryChange = () => {
         const battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
-        batteryStatus.value = {
+        batteryStatus = {
             level: battery.level,
             charging: battery.charging,
             chargingTime: battery.chargingTime,
             dischargingTime: battery.dischargingTime,
         };
 
-        wwLib.wwVariable.updateValue(`${pluginId}-battery`, batteryStatus.value);
+        updateValue(`${pluginId}-battery`, batteryStatus);
 
-        console.log(`${pluginId}-battery`, batteryStatus.value);
+        console.log(`${pluginId}-battery`, batteryStatus);
     };
 
-    onMounted(() => {
-        handleBatteryChange();
-        navigator.getBattery().then(battery => {
-            battery.addEventListener('chargingchange', handleBatteryChange);
-            battery.addEventListener('levelchange', handleBatteryChange);
-            battery.addEventListener('chargingtimechange', handleBatteryChange);
-            battery.addEventListener('dischargingtimechange', handleBatteryChange);
-        });
-
-        handleBatteryChange();
-    });
-
-    onUnmounted(() => {
-        navigator.getBattery().then(battery => {
-            battery.removeEventListener('chargingchange', handleBatteryChange);
-            battery.removeEventListener('levelchange', handleBatteryChange);
-            battery.removeEventListener('chargingtimechange', handleBatteryChange);
-            battery.removeEventListener('dischargingtimechange', handleBatteryChange);
-        });
+    handleBatteryChange();
+    navigator.getBattery().then(battery => {
+        battery.addEventListener('chargingchange', handleBatteryChange);
+        battery.addEventListener('levelchange', handleBatteryChange);
+        battery.addEventListener('chargingtimechange', handleBatteryChange);
+        battery.addEventListener('dischargingtimechange', handleBatteryChange);
     });
 
     return batteryStatus;
 };
 
 export const useOnline = pluginId => {
-    const isOnline = ref(navigator.onLine);
-    const wndw = getWindow();
+    let isOnline = navigator.onLine;
 
     const handleOnlineStatus = () => {
-        isOnline.value = navigator.onLine;
-        wwLib.wwVariable.updateValue(`${pluginId}-online`, isOnline.value);
+        isOnline = navigator.onLine;
+        updateValue(`${pluginId}-online`, isOnline);
 
-        console.log(`${pluginId}-online`, isOnline.value);
+        console.log(`${pluginId}-online`, isOnline);
     };
 
-    onMounted(() => {
-        wndw.addEventListener('online', handleOnlineStatus);
-        wndw.addEventListener('offline', handleOnlineStatus);
+    const wndw = getWindow();
+    wndw.addEventListener('online', handleOnlineStatus);
+    wndw.addEventListener('offline', handleOnlineStatus);
 
-        handleOnlineStatus();
-    });
-
-    onUnmounted(() => {
-        wndw.removeEventListener('online', handleOnlineStatus);
-        wndw.removeEventListener('offline', handleOnlineStatus);
-    });
+    handleOnlineStatus();
 
     return isOnline;
 };
@@ -142,24 +115,18 @@ export const usePageVisibility = pluginId => {
     let isVisible;
     const doc = getDocument();
 
-    isVisible = ref(!doc.hidden);
+    isVisible = !doc.hidden;
 
     const handleVisibilityChange = () => {
-        isVisible.value = !doc.hidden;
-        wwLib.wwVariable.updateValue(`${pluginId}-pageVisibility`, isVisible.value);
+        isVisible = !doc.hidden;
+        updateValue(`${pluginId}-pageVisibility`, isVisible);
 
-        console.log(`${pluginId}-pageVisibility`, isVisible.value);
+        console.log(`${pluginId}-pageVisibility`, isVisible);
     };
 
-    onMounted(() => {
-        doc.addEventListener('visibilitychange', handleVisibilityChange);
+    doc.addEventListener('visibilitychange', handleVisibilityChange);
 
-        handleVisibilityChange();
-    });
-
-    onUnmounted(() => {
-        doc.removeEventListener('visibilitychange', handleVisibilityChange);
-    });
+    handleVisibilityChange();
 
     return isVisible;
 };
