@@ -10,13 +10,18 @@ import { connectBluetooth } from './services/bluetooth';
 import { useNetwork, useBattery, useOnline, usePageVisibility } from './variables';
 
 export default {
-    networkStatus: useNetwork(this.id),
-    batteryStatus: useBattery(this.id),
-    onlineStatus: useOnline(this.id),
-    pageVisibility: usePageVisibility(this.id),
+    networkStatus: null,
+    batteryStatus: null,
+    onlineStatus: null,
+    pageVisibility: null,
 
     async onLoad(settings) {
         console.log('Plugin loaded 🔥', this);
+
+        this.networkStatus = useNetwork(this.pluginId);
+        this.batteryStatus = useBattery(this.pluginId);
+        this.onlineStatus = useOnline(this.pluginId);
+        this.pageVisibility = usePageVisibility(this.pluginId);
     },
     async geolocation() {
         return geolocation();
