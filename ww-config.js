@@ -17,7 +17,6 @@ export default {
         { name: 'battery', value: 'battery', type: 'object', defaultValue: null },
         { name: 'online', value: 'online', type: 'boolean', defaultValue: null },
         { name: 'pageVisibility', value: 'pageVisibility', type: 'boolean', defaultValue: null },
-        { name: 'orientation', value: 'orientation', type: 'object', defaultValue: null },
     ],
     actions: [
         // {
