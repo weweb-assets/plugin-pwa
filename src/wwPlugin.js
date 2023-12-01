@@ -9,21 +9,14 @@ import { connectBluetooth } from './services/bluetooth';
 
 import { useNetwork, useBattery, useOnline, usePageVisibility } from './variables';
 
-const VARIABLES = reactive({
-    networkStatus: null,
-    batteryStatus: null,
-    onlineStatus: null,
-    pageVisibility: null,
-});
-
 export default {
     async onLoad(settings) {
         console.log('Plugin loaded 🔥', this);
 
-        VARIABLES.networkStatus = useNetwork(this.id);
-        VARIABLES.batteryStatus = useBattery(this.id);
-        VARIABLES.onlineStatus = useOnline(this.id);
-        VARIABLES.pageVisibility = usePageVisibility(this.id);
+        useNetwork(this.id);
+        useBattery(this.id);
+        useOnline(this.id);
+        usePageVisibility(this.id);
     },
     async geolocation() {
         return geolocation();
