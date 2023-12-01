@@ -26,17 +26,9 @@ const getWindow = () => {
     return wndw;
 };
 
-const updateValue = (key, value) => {
-    // Perform the variable update using the provided key and value
-    console.log(`Updating ${key} with value:`, value);
-    // For example: wwLib.wwVariable.updateValue(key, value);
-};
-
 export const useNetwork = pluginId => {
     let isOnline = navigator.onLine;
     let connectionType = navigator.connection ? navigator.connection.effectiveType : 'unknown';
-
-    console.log(`${pluginId}-network`, { isOnline, connectionType });
 
     const handleNetworkChange = () => {
         isOnline = navigator.onLine;
@@ -44,12 +36,7 @@ export const useNetwork = pluginId => {
             connectionType = navigator.connection.effectiveType;
         }
 
-        updateValue(`${pluginId}-network`, {
-            isOnline,
-            connectionType,
-        });
-
-        console.log(`${pluginId}-network`, { isOnline, connectionType });
+        wwLib.wwVariable.updateValue(`${pluginId}-network`, { isOnline, connectionType });
     };
 
     const wndw = getWindow();
@@ -60,8 +47,6 @@ export const useNetwork = pluginId => {
     }
 
     handleNetworkChange();
-
-    return { isOnline, connectionType };
 };
 
 export const useBattery = pluginId => {
@@ -76,9 +61,7 @@ export const useBattery = pluginId => {
             dischargingTime: battery.dischargingTime,
         };
 
-        updateValue(`${pluginId}-battery`, batteryStatus);
-
-        console.log(`${pluginId}-battery`, batteryStatus);
+        wwLib.wwVariable.updateValue(`${pluginId}-battery`, batteryStatus);
     };
 
     handleBatteryChange();
@@ -88,8 +71,6 @@ export const useBattery = pluginId => {
         battery.addEventListener('chargingtimechange', handleBatteryChange);
         battery.addEventListener('dischargingtimechange', handleBatteryChange);
     });
-
-    return batteryStatus;
 };
 
 export const useOnline = pluginId => {
@@ -97,9 +78,7 @@ export const useOnline = pluginId => {
 
     const handleOnlineStatus = () => {
         isOnline = navigator.onLine;
-        updateValue(`${pluginId}-online`, isOnline);
-
-        console.log(`${pluginId}-online`, isOnline);
+        wwLib.wwVariable.updateValue(`${pluginId}-online`, isOnline);
     };
 
     const wndw = getWindow();
@@ -107,8 +86,6 @@ export const useOnline = pluginId => {
     wndw.addEventListener('offline', handleOnlineStatus);
 
     handleOnlineStatus();
-
-    return isOnline;
 };
 
 export const usePageVisibility = pluginId => {
@@ -119,14 +96,10 @@ export const usePageVisibility = pluginId => {
 
     const handleVisibilityChange = () => {
         isVisible = !doc.hidden;
-        updateValue(`${pluginId}-pageVisibility`, isVisible);
-
-        console.log(`${pluginId}-pageVisibility`, isVisible);
+        wwLib.wwVariable.updateValue(`${pluginId}-pageVisibility`, isVisible);
     };
 
     doc.addEventListener('visibilitychange', handleVisibilityChange);
 
     handleVisibilityChange();
-
-    return isVisible;
 };
