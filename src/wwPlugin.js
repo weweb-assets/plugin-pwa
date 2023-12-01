@@ -1,6 +1,4 @@
-import { watch } from 'vue';
-
-import { getMimeType, convertURLToFile } from './utils';
+// import { getMimeType, convertURLToFile } from './utils';
 import { geolocation } from './services/geolocation';
 import { share } from './services/share';
 import { vibrate } from './services/vibrate';
@@ -18,10 +16,10 @@ export default {
     async onLoad(settings) {
         console.log('Plugin loaded 🔥', this);
 
-        this.networkStatus = useNetwork(this.pluginId);
-        this.batteryStatus = useBattery(this.pluginId);
-        this.onlineStatus = useOnline(this.pluginId);
-        this.pageVisibility = usePageVisibility(this.pluginId);
+        this.networkStatus = useNetwork(this.id);
+        this.batteryStatus = useBattery(this.id);
+        this.onlineStatus = useOnline(this.id);
+        this.pageVisibility = usePageVisibility(this.id);
     },
     async geolocation() {
         return geolocation();
