@@ -10,7 +10,6 @@ import { connectBluetooth } from './services/bluetooth';
 import { useNetwork, useBattery, useOnline, usePageVisibility } from './variables';
 
 export default {
-    publicInstance: null,
     networkStatus: useNetwork(),
     batteryStatus: useBattery(),
     onlineStatus: useOnline(),
