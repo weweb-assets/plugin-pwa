@@ -1,6 +1,34 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
-export const useNetwork = () => {
+const getDocument = () => {
+    let doc;
+
+    /* wwFront:start */
+    doc = wwLib.getFrontDocument();
+    /* wwFront:end */
+
+    /* wwEditor:start */
+    doc = wwLib.getEditorDocument();
+    /* wwEditor:end */
+
+    return doc;
+};
+
+const getWindow = () => {
+    let wndw;
+
+    /* wwFront:start */
+    wndw = wwLib.getFrontWindow();
+    /* wwFront:end */
+
+    /* wwEditor:start */
+    wndw = wwLib.getEditorWindow();
+    /* wwEditor:end */
+
+    return wndw;
+};
+
+export const useNetwork = pluginId => {
     const isOnline = ref(navigator.onLine);
     const connectionType = ref(navigator.connection ? navigator.connection.effectiveType : 'unknown');
 
@@ -9,19 +37,24 @@ export const useNetwork = () => {
         if (navigator.connection) {
             connectionType.value = navigator.connection.effectiveType;
         }
+
+        wwLib.wwVariable.updateValue(`${pluginId}-isOnline`, isOnline.value);
+        wwLib.wwVariable.updateValue(`${pluginId}-connectionType`, connectionType.value);
     };
 
     onMounted(() => {
-        window.addEventListener('online', handleNetworkChange);
-        window.addEventListener('offline', handleNetworkChange);
+        const wndw = getWindow();
+        wndw.addEventListener('online', handleNetworkChange);
+        wndw.addEventListener('offline', handleNetworkChange);
         if (navigator.connection) {
             navigator.connection.addEventListener('change', handleNetworkChange);
         }
     });
 
     onUnmounted(() => {
-        window.removeEventListener('online', handleNetworkChange);
-        window.removeEventListener('offline', handleNetworkChange);
+        const wndw = getWindow();
+        wndw.removeEventListener('online', handleNetworkChange);
+        wndw.removeEventListener('offline', handleNetworkChange);
         if (navigator.connection) {
             navigator.connection.removeEventListener('change', handleNetworkChange);
         }
@@ -30,7 +63,7 @@ export const useNetwork = () => {
     return { isOnline, connectionType };
 };
 
-export const useBattery = () => {
+export const useBattery = pluginId => {
     const batteryStatus = ref(null);
 
     const handleBatteryChange = () => {
@@ -41,6 +74,8 @@ export const useBattery = () => {
             chargingTime: battery.chargingTime,
             dischargingTime: battery.dischargingTime,
         };
+
+        wwLib.wwVariable.updateValue(`${pluginId}-batteryStatus`, batteryStatus.value);
     };
 
     onMounted(() => {
@@ -65,39 +100,45 @@ export const useBattery = () => {
     return batteryStatus;
 };
 
-export const useOnline = () => {
+export const useOnline = pluginId => {
     const isOnline = ref(navigator.onLine);
+    const wndw = getWindow();
 
     const handleOnlineStatus = () => {
         isOnline.value = navigator.onLine;
+        wwLib.wwVariable.updateValue(`${pluginId}-isOnline`, isOnline.value);
     };
 
     onMounted(() => {
-        window.addEventListener('online', handleOnlineStatus);
-        window.addEventListener('offline', handleOnlineStatus);
+        wndw.addEventListener('online', handleOnlineStatus);
+        wndw.addEventListener('offline', handleOnlineStatus);
     });
 
     onUnmounted(() => {
-        window.removeEventListener('online', handleOnlineStatus);
-        window.removeEventListener('offline', handleOnlineStatus);
+        wndw.removeEventListener('online', handleOnlineStatus);
+        wndw.removeEventListener('offline', handleOnlineStatus);
     });
 
     return isOnline;
 };
 
-export const usePageVisibility = () => {
-    const isVisible = ref(!document.hidden);
+export const usePageVisibility = pluginId => {
+    let isVisible;
+    const doc = getDocument();
+
+    isVisible = ref(!doc.hidden);
 
     const handleVisibilityChange = () => {
-        isVisible.value = !document.hidden;
+        isVisible.value = !doc.hidden;
+        wwLib.wwVariable.updateValue(`${pluginId}-isVisible`, isVisible.value);
     };
 
     onMounted(() => {
-        document.addEventListener('visibilitychange', handleVisibilityChange);
+        doc.addEventListener('visibilitychange', handleVisibilityChange);
     });
 
     onUnmounted(() => {
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
+        doc.removeEventListener('visibilitychange', handleVisibilityChange);
     });
 
     return isVisible;
