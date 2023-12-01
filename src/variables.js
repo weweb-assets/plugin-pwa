@@ -53,6 +53,8 @@ export const useNetwork = pluginId => {
         if (navigator.connection) {
             navigator.connection.addEventListener('change', handleNetworkChange);
         }
+
+        handleNetworkChange();
     });
 
     onUnmounted(() => {
@@ -92,6 +94,8 @@ export const useBattery = pluginId => {
             battery.addEventListener('chargingtimechange', handleBatteryChange);
             battery.addEventListener('dischargingtimechange', handleBatteryChange);
         });
+
+        handleBatteryChange();
     });
 
     onUnmounted(() => {
@@ -120,6 +124,8 @@ export const useOnline = pluginId => {
     onMounted(() => {
         wndw.addEventListener('online', handleOnlineStatus);
         wndw.addEventListener('offline', handleOnlineStatus);
+
+        handleOnlineStatus();
     });
 
     onUnmounted(() => {
@@ -145,6 +151,8 @@ export const usePageVisibility = pluginId => {
 
     onMounted(() => {
         doc.addEventListener('visibilitychange', handleVisibilityChange);
+
+        handleVisibilityChange();
     });
 
     onUnmounted(() => {
