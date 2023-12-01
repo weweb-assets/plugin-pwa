@@ -55,15 +55,15 @@ export const listenBattery = pluginId => {
         const battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
 
         if (battery) {
-            batteryStatus.value = {
+            batteryStatus = {
                 level: battery.level || null,
                 charging: battery.charging || false,
                 chargingTime: battery.chargingTime || 0,
                 dischargingTime: battery.dischargingTime || 0,
             };
 
-            wwLib.wwVariable.updateValue(`${pluginId}-battery`, batteryStatus.value);
-            console.log('battery', batteryStatus.value);
+            wwLib.wwVariable.updateValue(`${pluginId}-battery`, batteryStatus);
+            console.log('battery', batteryStatus);
         }
     };
 
@@ -76,23 +76,6 @@ export const listenBattery = pluginId => {
     });
 
     handleBatteryChange();
-};
-
-export const listenOnline = pluginId => {
-    let isOnline = navigator.onLine;
-
-    const handleOnlineStatus = () => {
-        isOnline = navigator.onLine;
-
-        wwLib.wwVariable.updateValue(`${pluginId}-online`, isOnline);
-        console.log('online', isOnline);
-    };
-
-    const wndw = getWindow();
-    wndw.addEventListener('online', handleOnlineStatus);
-    wndw.addEventListener('offline', handleOnlineStatus);
-
-    handleOnlineStatus();
 };
 
 export const listenPageVisibility = pluginId => {

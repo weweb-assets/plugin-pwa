@@ -15,7 +15,6 @@ export default {
     variables: [
         { name: 'network', value: 'network', type: 'object', defaultValue: null },
         { name: 'battery', value: 'battery', type: 'object', defaultValue: null },
-        { name: 'online', value: 'online', type: 'boolean', defaultValue: null },
         { name: 'pageVisibility', value: 'pageVisibility', type: 'boolean', defaultValue: null },
     ],
     actions: [
