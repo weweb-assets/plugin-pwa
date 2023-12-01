@@ -54,14 +54,17 @@ export const listenBattery = pluginId => {
 
     const handleBatteryChange = () => {
         const battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
-        batteryStatus = {
-            level: battery.level,
-            charging: battery.charging,
-            chargingTime: battery.chargingTime,
-            dischargingTime: battery.dischargingTime,
-        };
 
-        wwLib.wwVariable.updateValue(`${pluginId}-battery`, batteryStatus);
+        if (battery) {
+            batteryStatus.value = {
+                level: battery.level || null,
+                charging: battery.charging || false,
+                chargingTime: battery.chargingTime || 0,
+                dischargingTime: battery.dischargingTime || 0,
+            };
+
+            wwLib.wwVariable.updateValue(`${pluginId}-battery`, batteryStatus.value);
+        }
     };
 
     handleBatteryChange();
