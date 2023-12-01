@@ -11,15 +11,10 @@ import { useNetwork, useBattery, useOnline, usePageVisibility } from './variable
 
 export default {
     publicInstance: null,
-
-    data() {
-        return {
-            networkStatus: null,
-            batteryStatus: null,
-            onlineStatus: null,
-            pageVisibility: null,
-        };
-    },
+    networkStatus: null,
+    batteryStatus: null,
+    onlineStatus: null,
+    pageVisibility: null,
 
     async onLoad(settings) {
         console.log('PLUGIN ONLOAD 🔥', this);
@@ -28,6 +23,11 @@ export default {
         this.batteryStatus = useBattery();
         this.onlineStatus = useOnline();
         this.pageVisibility = usePageVisibility();
+
+        console.log('networkStatus', this.networkStatus);
+        console.log('batteryStatus', this.batteryStatus);
+        console.log('onlineStatus', this.onlineStatus);
+        console.log('pageVisibility', this.pageVisibility);
 
         watch(this.networkStatus, value => {
             console.log('networkStatus', value);
