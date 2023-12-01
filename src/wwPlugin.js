@@ -1,3 +1,5 @@
+import { ref } from 'vue';
+
 // import { getMimeType, convertURLToFile } from './utils';
 import { geolocation } from './services/geolocation';
 import { share } from './services/share';
@@ -16,10 +18,10 @@ export default {
     async onLoad(settings) {
         console.log('Plugin loaded 🔥', this);
 
-        this.networkStatus = useNetwork(this.id);
-        this.batteryStatus = useBattery(this.id);
-        this.onlineStatus = useOnline(this.id);
-        this.pageVisibility = usePageVisibility(this.id);
+        this.networkStatus = ref(useNetwork(this.id));
+        this.batteryStatus = ref(useBattery(this.id));
+        this.onlineStatus = ref(useOnline(this.id));
+        this.pageVisibility = ref(usePageVisibility(this.id));
     },
     async geolocation() {
         return geolocation();
