@@ -71,6 +71,8 @@ export const useBattery = pluginId => {
         battery.addEventListener('chargingtimechange', handleBatteryChange);
         battery.addEventListener('dischargingtimechange', handleBatteryChange);
     });
+
+    handleBatteryChange();
 };
 
 export const useOnline = pluginId => {
