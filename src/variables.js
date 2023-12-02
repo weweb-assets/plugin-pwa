@@ -1,3 +1,5 @@
+import { reactive } from 'vue';
+
 const getDocument = () => {
     let doc;
 
@@ -27,15 +29,15 @@ const getWindow = () => {
 };
 
 export const listenNetwork = pluginId => {
-    let isOnline = navigator.onLine;
+    const state = reactive({
+        isOnline: navigator.onLine,
+        connection: navigator.connection || null,
+    });
 
     const handleNetworkChange = () => {
-        isOnline = navigator.onLine;
-        if (navigator.connection) {
-            connection = navigator.connection;
-        }
-
-        wwLib.wwVariable.updateValue(`${pluginId}-network`, { isOnline, connection });
+        state.isOnline = navigator.onLine;
+        state.connection = navigator.connection || null;
+        wwLib.wwVariable.updateValue(`${pluginId}-network`, state);
     };
 
     const wndw = getWindow();
@@ -46,51 +48,49 @@ export const listenNetwork = pluginId => {
     }
 
     handleNetworkChange();
+
+    return state;
 };
 
 export const listenBattery = pluginId => {
-    let batteryStatus = null;
-
-    const handleBatteryChange = () => {
-        const battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
-
-        if (battery) {
-            batteryStatus = {
-                level: battery.level || null,
-                charging: battery.charging || false,
-                chargingTime: battery.chargingTime || 0,
-                dischargingTime: battery.dischargingTime || 0,
-            };
-
-            wwLib.wwVariable.updateValue(`${pluginId}-battery`, batteryStatus);
-            console.log('battery', batteryStatus);
-        }
-    };
-
-    handleBatteryChange();
-    navigator.getBattery().then(battery => {
-        battery.addEventListener('chargingchange', handleBatteryChange);
-        battery.addEventListener('levelchange', handleBatteryChange);
-        battery.addEventListener('chargingtimechange', handleBatteryChange);
-        battery.addEventListener('dischargingtimechange', handleBatteryChange);
+    const batteryStatus = reactive({
+        level: null,
+        charging: false,
+        chargingTime: 0,
+        dischargingTime: 0,
     });
 
-    handleBatteryChange();
+    const handleBatteryChange = battery => {
+        batteryStatus.level = battery.level;
+        batteryStatus.charging = battery.charging;
+        batteryStatus.chargingTime = battery.chargingTime;
+        batteryStatus.dischargingTime = battery.dischargingTime;
+        wwLib.wwVariable.updateValue(`${pluginId}-battery`, batteryStatus);
+    };
+
+    navigator.getBattery().then(battery => {
+        handleBatteryChange(battery);
+        battery.addEventListener('chargingchange', () => handleBatteryChange(battery));
+        battery.addEventListener('levelchange', () => handleBatteryChange(battery));
+        battery.addEventListener('chargingtimechange', () => handleBatteryChange(battery));
+        battery.addEventListener('dischargingtimechange', () => handleBatteryChange(battery));
+    });
+
+    return batteryStatus;
 };
 
 export const listenPageVisibility = pluginId => {
-    let isVisible;
-    const doc = getDocument();
-
-    isVisible = !doc.hidden;
+    const isVisible = reactive({ value: !getDocument().hidden });
 
     const handleVisibilityChange = () => {
-        isVisible = !doc.hidden;
-        wwLib.wwVariable.updateValue(`${pluginId}-pageVisibility`, isVisible);
-        console.log('pageVisibility', isVisible);
+        isVisible.value = !getDocument().hidden;
+        wwLib.wwVariable.updateValue(`${pluginId}-pageVisibility`, isVisible.value);
     };
 
+    const doc = getDocument();
     doc.addEventListener('visibilitychange', handleVisibilityChange);
 
     handleVisibilityChange();
+
+    return isVisible;
 };
