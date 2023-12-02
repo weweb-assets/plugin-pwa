@@ -1,4 +1,4 @@
-import { reactive, toRaw } from 'vue';
+import { reactive, ref, toRaw } from 'vue';
 
 const getDocument = () => {
     let doc;
