@@ -97,24 +97,24 @@ export const listenPageVisibility = pluginId => {
 
 export const listenScreen = pluginId => {
     const screenState = reactive({
-        orientation: window.screen.orientation.type,
-        width: window.innerWidth,
-        height: window.innerHeight,
+        orientation: getWindow().screen.orientation.type,
+        width: getWindow().innerWidth,
+        height: getWindow().innerHeight,
     });
 
     const handleResize = () => {
-        screenState.width = window.innerWidth;
-        screenState.height = window.innerHeight;
+        screenState.width = getWindow().innerWidth;
+        screenState.height = getWindow().innerHeight;
         wwLib.wwVariable.updateValue(`${pluginId}-screenSize`, toRaw(screenState));
     };
 
     const handleOrientationChange = () => {
-        screenState.orientation = window.screen.orientation.type;
+        screenState.orientation = getWindow().screen.orientation.type;
         wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
     };
 
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleOrientationChange);
+    getWindow().addEventListener('resize', handleResize);
+    getWindow().addEventListener('orientationchange', handleOrientationChange);
 
     return screenState;
 };
@@ -122,9 +122,10 @@ export const listenScreen = pluginId => {
 export const listenAmbientLight = pluginId => {
     const lightState = reactive({
         illuminance: null,
+        supported: true,
     });
 
-    if ('AmbientLightSensor' in window) {
+    if ('AmbientLightSensor' in getWindow()) {
         const sensor = new AmbientLightSensor();
 
         sensor.onreading = () => {
@@ -133,12 +134,14 @@ export const listenAmbientLight = pluginId => {
         };
 
         sensor.onerror = event => {
-            throw new Error(`Ambient Light Sensor error: ${event.error.name}`);
+            lightState.supported = false;
+            wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
         };
 
         sensor.start();
     } else {
-        throw new Error('Ambient Light Sensor is not supported by your device.');
+        lightState.supported = false;
+        wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
     }
 
     return lightState;
@@ -150,26 +153,22 @@ export const listenDeviceMotion = pluginId => {
         accelerationIncludingGravity: null,
         rotationRate: null,
         interval: null,
+        supported: true,
     });
 
-    if ('DeviceMotionEvent' in window) {
-        const sensor = new DeviceMotionEvent();
+    const handleDeviceMotion = event => {
+        motionState.acceleration = event.acceleration;
+        motionState.accelerationIncludingGravity = event.accelerationIncludingGravity;
+        motionState.rotationRate = event.rotationRate;
+        motionState.interval = event.interval;
+        wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
+    };
 
-        sensor.onreading = () => {
-            motionState.acceleration = sensor.acceleration;
-            motionState.accelerationIncludingGravity = sensor.accelerationIncludingGravity;
-            motionState.rotationRate = sensor.rotationRate;
-            motionState.interval = sensor.interval;
-            wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
-        };
-
-        sensor.onerror = event => {
-            throw new Error(`Device Motion Sensor error: ${event.error.name}`);
-        };
-
-        sensor.start();
+    if ('DeviceMotionEvent' in getWindow()) {
+        getWindow().addEventListener('devicemotion', handleDeviceMotion);
     } else {
-        throw new Error('Device Motion Sensor is not supported by your device.');
+        motionState.supported = false;
+        wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
     }
 
     return motionState;
