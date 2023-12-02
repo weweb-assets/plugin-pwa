@@ -94,3 +94,52 @@ export const listenPageVisibility = pluginId => {
 
     return isVisible;
 };
+
+export const listenScreen = pluginId => {
+    const screenState = reactive({
+        orientation: window.screen.orientation.type,
+        width: window.innerWidth,
+        height: window.innerHeight,
+    });
+
+    const handleResize = () => {
+        screenState.width = window.innerWidth;
+        screenState.height = window.innerHeight;
+        wwLib.wwVariable.updateValue(`${pluginId}-screenSize`, screenState);
+    };
+
+    const handleOrientationChange = () => {
+        screenState.orientation = window.screen.orientation.type;
+        wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, screenState);
+    };
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleOrientationChange);
+
+    return screenState;
+};
+
+export const listenAmbientLight = pluginId => {
+    const lightState = reactive({
+        illuminance: null,
+    });
+
+    if ('AmbientLightSensor' in window) {
+        const sensor = new AmbientLightSensor();
+
+        sensor.onreading = () => {
+            lightState.illuminance = sensor.illuminance;
+            wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, lightState);
+        };
+
+        sensor.onerror = event => {
+            throw new Error(`Ambient Light Sensor error: ${event.error.name}`);
+        };
+
+        sensor.start();
+    } else {
+        throw new Error('Ambient Light Sensor is not supported by your device.');
+    }
+
+    return lightState;
+};

@@ -5,17 +5,21 @@ import { vibrate } from './services/vibrate';
 import { sendNotification } from './services/notification';
 import { connectBluetooth } from './services/bluetooth';
 
-import { listenNetwork, listenBattery, listenPageVisibility } from './variables';
+import { listenNetwork, listenBattery, listenPageVisibility, listenScreen, listenAmbientLight } from './variables';
 
 export default {
     networkState: null,
     batteryState: null,
     pageVisibilityState: null,
+    screenOrientationState: null,
+    screenSizeState: null,
 
     async onLoad(settings) {
         this.networkState = listenNetwork(this.id);
         this.batteryState = listenBattery(this.id);
         this.pageVisibilityState = listenPageVisibility(this.id);
+        this.screenOrientationState = listenScreen(this.id);
+        this.screenSizeState = listenScreen(this.id);
 
         console.log('Plugin loaded 🔥', this);
     },
