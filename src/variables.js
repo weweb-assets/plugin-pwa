@@ -143,3 +143,34 @@ export const listenAmbientLight = pluginId => {
 
     return lightState;
 };
+
+export const listenDeviceMotion = pluginId => {
+    const motionState = reactive({
+        acceleration: null,
+        accelerationIncludingGravity: null,
+        rotationRate: null,
+        interval: null,
+    });
+
+    if ('DeviceMotionEvent' in window) {
+        const sensor = new DeviceMotionEvent();
+
+        sensor.onreading = () => {
+            motionState.acceleration = sensor.acceleration;
+            motionState.accelerationIncludingGravity = sensor.accelerationIncludingGravity;
+            motionState.rotationRate = sensor.rotationRate;
+            motionState.interval = sensor.interval;
+            wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, motionState);
+        };
+
+        sensor.onerror = event => {
+            throw new Error(`Device Motion Sensor error: ${event.error.name}`);
+        };
+
+        sensor.start();
+    } else {
+        throw new Error('Device Motion Sensor is not supported by your device.');
+    }
+
+    return motionState;
+};
