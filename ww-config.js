@@ -15,7 +15,7 @@ export default {
     variables: [
         { name: 'network', value: 'network', type: 'object', defaultValue: null },
         { name: 'battery', value: 'battery', type: 'object', defaultValue: null },
-        { name: 'pageVisibility', value: 'pageVisibility', type: 'boolean', defaultValue: true },
+        { name: 'pageVisibility', value: 'pageVisibility', type: 'boolean', defaultValue: false },
         { name: 'screenOrientation', value: 'screenOrientation', type: 'object', defaultValue: null },
         { name: 'ambientLight', value: 'ambientLight', type: 'object', defaultValue: null },
         { name: 'deviceMotion', value: 'deviceMotion', type: 'object', defaultValue: null },

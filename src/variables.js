@@ -121,11 +121,11 @@ export const listenScreen = pluginId => {
 
 export const listenAmbientLight = pluginId => {
     const lightState = reactive({
-        illuminance: null,
-        supported: true,
+        illuminance: -1,
+        supported: 'AmbientLightSensor' in getWindow(),
     });
 
-    if ('AmbientLightSensor' in getWindow()) {
+    if (lightState.supported) {
         const sensor = new AmbientLightSensor();
 
         sensor.onreading = () => {
@@ -140,7 +140,6 @@ export const listenAmbientLight = pluginId => {
 
         sensor.start();
     } else {
-        lightState.supported = false;
         wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
     }
 
@@ -149,10 +148,10 @@ export const listenAmbientLight = pluginId => {
 
 export const listenDeviceMotion = pluginId => {
     const motionState = reactive({
-        acceleration: null,
-        accelerationIncludingGravity: null,
-        rotationRate: null,
-        interval: null,
+        acceleration: { x: 0, y: 0, z: 0 },
+        accelerationIncludingGravity: { x: 0, y: 0, z: 0 },
+        rotationRate: { alpha: 0, beta: 0, gamma: 0 },
+        interval: 0,
         supported: 'DeviceMotionEvent' in getWindow(),
     });
 
@@ -160,7 +159,7 @@ export const listenDeviceMotion = pluginId => {
         motionState.acceleration = event.acceleration;
         motionState.accelerationIncludingGravity = event.accelerationIncludingGravity;
         motionState.rotationRate = event.rotationRate;
-        motionState.interval = event.interval;
+        motionState.interval = event.interval || motionState.interval;
         wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
     };
 
