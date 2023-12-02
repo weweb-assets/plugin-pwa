@@ -80,7 +80,7 @@ export const listenBattery = pluginId => {
 };
 
 export const listenPageVisibility = pluginId => {
-    const isVisible = reactive({ value: !getDocument().hidden });
+    const isVisible = ref(!getDocument().hidden);
 
     const handleVisibilityChange = () => {
         isVisible.value = !getDocument().hidden;
