@@ -97,7 +97,7 @@ export const listenPageVisibility = pluginId => {
 
 export const listenScreen = pluginId => {
     const screenState = reactive({
-        orientation: getWindow().screen.orientation.type,
+        orientation: (getWindow().screen.orientation && getWindow().screen.orientation.type) || 'unknown',
         width: getWindow().innerWidth,
         height: getWindow().innerHeight,
     });
@@ -153,7 +153,7 @@ export const listenDeviceMotion = pluginId => {
         accelerationIncludingGravity: null,
         rotationRate: null,
         interval: null,
-        supported: true,
+        supported: 'DeviceMotionEvent' in getWindow(),
     });
 
     const handleDeviceMotion = event => {
@@ -164,10 +164,9 @@ export const listenDeviceMotion = pluginId => {
         wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
     };
 
-    if ('DeviceMotionEvent' in getWindow()) {
+    if (motionState.supported) {
         getWindow().addEventListener('devicemotion', handleDeviceMotion);
     } else {
-        motionState.supported = false;
         wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
     }
 
