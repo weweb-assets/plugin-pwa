@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { reactive, toRaw } from 'vue';
 
 const getDocument = () => {
     let doc;
@@ -29,15 +29,15 @@ const getWindow = () => {
 };
 
 export const listenNetwork = pluginId => {
-    const state = reactive({
+    const networkState = reactive({
         isOnline: navigator.onLine,
         connection: navigator.connection || null,
     });
 
     const handleNetworkChange = () => {
-        state.isOnline = navigator.onLine;
-        state.connection = navigator.connection || null;
-        wwLib.wwVariable.updateValue(`${pluginId}-network`, state);
+        networkState.isOnline = navigator.onLine;
+        networkState.connection = navigator.connection || null;
+        wwLib.wwVariable.updateValue(`${pluginId}-network`, toRaw(networkState));
     };
 
     const wndw = getWindow();
@@ -49,7 +49,7 @@ export const listenNetwork = pluginId => {
 
     handleNetworkChange();
 
-    return state;
+    return networkState;
 };
 
 export const listenBattery = pluginId => {
@@ -65,7 +65,7 @@ export const listenBattery = pluginId => {
         batteryStatus.charging = battery.charging;
         batteryStatus.chargingTime = battery.chargingTime;
         batteryStatus.dischargingTime = battery.dischargingTime;
-        wwLib.wwVariable.updateValue(`${pluginId}-battery`, batteryStatus);
+        wwLib.wwVariable.updateValue(`${pluginId}-battery`, toRaw(batteryStatus));
     };
 
     navigator.getBattery().then(battery => {
@@ -105,12 +105,12 @@ export const listenScreen = pluginId => {
     const handleResize = () => {
         screenState.width = window.innerWidth;
         screenState.height = window.innerHeight;
-        wwLib.wwVariable.updateValue(`${pluginId}-screenSize`, screenState);
+        wwLib.wwVariable.updateValue(`${pluginId}-screenSize`, toRaw(screenState));
     };
 
     const handleOrientationChange = () => {
         screenState.orientation = window.screen.orientation.type;
-        wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, screenState);
+        wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
     };
 
     window.addEventListener('resize', handleResize);
@@ -129,7 +129,7 @@ export const listenAmbientLight = pluginId => {
 
         sensor.onreading = () => {
             lightState.illuminance = sensor.illuminance;
-            wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, lightState);
+            wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
         };
 
         sensor.onerror = event => {
@@ -160,7 +160,7 @@ export const listenDeviceMotion = pluginId => {
             motionState.accelerationIncludingGravity = sensor.accelerationIncludingGravity;
             motionState.rotationRate = sensor.rotationRate;
             motionState.interval = sensor.interval;
-            wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, motionState);
+            wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
         };
 
         sensor.onerror = event => {
