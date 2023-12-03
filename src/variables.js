@@ -2,41 +2,31 @@ import { reactive, ref, toRaw } from 'vue';
 
 const getDocument = () => {
     let doc;
-
-    /* wwFront:start */
-    doc = wwLib.getFrontDocument();
-    /* wwFront:end */
-
-    /* wwEditor:start */
-    doc = wwLib.getEditorDocument();
-    /* wwEditor:end */
-
+    doc = wwLib.getFrontDocument() || wwLib.getEditorDocument();
     return doc;
 };
 
 const getWindow = () => {
     let wndw;
-
-    /* wwFront:start */
-    wndw = wwLib.getFrontWindow();
-    /* wwFront:end */
-
-    /* wwEditor:start */
-    wndw = wwLib.getEditorWindow();
-    /* wwEditor:end */
-
+    wndw = wwLib.getFrontWindow() || wwLib.getEditorWindow();
     return wndw;
 };
 
 export const listenNetwork = pluginId => {
     const networkState = reactive({
         isOnline: navigator.onLine,
-        connection: navigator.connection || null,
+        connection: navigator.connection || {
+            downlink: -1,
+            effectiveType: 'unknown',
+            rtt: -1,
+            saveData: false,
+            type: 'unknown',
+        },
     });
 
     const handleNetworkChange = () => {
         networkState.isOnline = navigator.onLine;
-        networkState.connection = navigator.connection || null;
+        networkState.connection = navigator.connection || networkState.connection;
         wwLib.wwVariable.updateValue(`${pluginId}-network`, toRaw(networkState));
     };
 
@@ -48,23 +38,22 @@ export const listenNetwork = pluginId => {
     }
 
     handleNetworkChange();
-
     return networkState;
 };
 
 export const listenBattery = pluginId => {
     const batteryStatus = reactive({
-        level: null,
+        level: -1,
         charging: false,
-        chargingTime: 0,
-        dischargingTime: 0,
+        chargingTime: -1,
+        dischargingTime: -1,
     });
 
     const handleBatteryChange = battery => {
-        batteryStatus.level = battery.level;
-        batteryStatus.charging = battery.charging;
-        batteryStatus.chargingTime = battery.chargingTime;
-        batteryStatus.dischargingTime = battery.dischargingTime;
+        batteryStatus.level = battery.level ?? batteryStatus.level;
+        batteryStatus.charging = battery.charging ?? batteryStatus.charging;
+        batteryStatus.chargingTime = battery.chargingTime ?? batteryStatus.chargingTime;
+        batteryStatus.dischargingTime = battery.dischargingTime ?? batteryStatus.dischargingTime;
         wwLib.wwVariable.updateValue(`${pluginId}-battery`, toRaw(batteryStatus));
     };
 
@@ -89,15 +78,13 @@ export const listenPageVisibility = pluginId => {
 
     const doc = getDocument();
     doc.addEventListener('visibilitychange', handleVisibilityChange);
-
     handleVisibilityChange();
-
     return isVisible;
 };
 
 export const listenScreen = pluginId => {
     const screenState = reactive({
-        orientation: (getWindow().screen.orientation && getWindow().screen.orientation.type) || 'unknown',
+        orientation: getWindow().screen.orientation.type || 'unknown',
         width: getWindow().innerWidth,
         height: getWindow().innerHeight,
     });
@@ -105,11 +92,11 @@ export const listenScreen = pluginId => {
     const handleResize = () => {
         screenState.width = getWindow().innerWidth;
         screenState.height = getWindow().innerHeight;
-        wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
+        wwLib.wwVariable.updateValue(`${pluginId}-screenSize`, toRaw(screenState));
     };
 
     const handleOrientationChange = () => {
-        screenState.orientation = getWindow().screen.orientation.type;
+        screenState.orientation = getWindow().screen.orientation.type || screenState.orientation;
         wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
     };
 
@@ -148,17 +135,18 @@ export const listenAmbientLight = pluginId => {
 
 export const listenDeviceMotion = pluginId => {
     const motionState = reactive({
-        acceleration: { x: 0, y: 0, z: 0 },
-        accelerationIncludingGravity: { x: 0, y: 0, z: 0 },
-        rotationRate: { alpha: 0, beta: 0, gamma: 0 },
-        interval: 0,
+        acceleration: { x: -1, y: -1, z: -1 },
+        accelerationIncludingGravity: { x: -1, y: -1, z: -1 },
+        rotationRate: { alpha: -1, beta: -1, gamma: -1 },
+        interval: -1,
         supported: 'DeviceMotionEvent' in getWindow(),
     });
 
     const handleDeviceMotion = event => {
-        motionState.acceleration = event.acceleration;
-        motionState.accelerationIncludingGravity = event.accelerationIncludingGravity;
-        motionState.rotationRate = event.rotationRate;
+        motionState.acceleration = event.acceleration || motionState.acceleration;
+        motionState.accelerationIncludingGravity =
+            event.accelerationIncludingGravity || motionState.accelerationIncludingGravity;
+        motionState.rotationRate = event.rotationRate || motionState.rotationRate;
         motionState.interval = event.interval || motionState.interval;
         wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
     };
