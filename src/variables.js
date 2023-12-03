@@ -2,13 +2,29 @@ import { reactive, ref, toRaw } from 'vue';
 
 const getDocument = () => {
     let doc;
-    doc = wwLib.getFrontDocument() || wwLib.getEditorDocument();
+
+    /* wwFront:start */
+    doc = wwLib.getFrontDocument();
+    /* wwFront:end */
+
+    /* wwEditor:start */
+    doc = wwLib.getEditorDocument();
+    /* wwEditor:end */
+
     return doc;
 };
 
 const getWindow = () => {
     let wndw;
-    wndw = wwLib.getFrontWindow() || wwLib.getEditorWindow();
+
+    /* wwFront:start */
+    wndw = wwLib.getFrontWindow();
+    /* wwFront:end */
+
+    /* wwEditor:start */
+    wndw = wwLib.getEditorWindow();
+    /* wwEditor:end */
+
     return wndw;
 };
 
