@@ -94,7 +94,9 @@ export const listenPageVisibility = pluginId => {
 
     const doc = getDocument();
     doc.addEventListener('visibilitychange', handleVisibilityChange);
+
     handleVisibilityChange();
+
     return isVisible;
 };
 
@@ -118,6 +120,9 @@ export const listenScreen = pluginId => {
 
     getWindow().addEventListener('resize', handleResize);
     getWindow().addEventListener('orientationchange', handleOrientationChange);
+
+    handleResize();
+    handleOrientationChange();
 
     return screenState;
 };
@@ -169,6 +174,7 @@ export const listenDeviceMotion = pluginId => {
 
     if (motionState.supported) {
         getWindow().addEventListener('devicemotion', handleDeviceMotion);
+        wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
     } else {
         wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
     }
