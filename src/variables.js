@@ -108,7 +108,7 @@ export const listenScreen = pluginId => {
     const handleResize = () => {
         screenState.width = getWindow().innerWidth;
         screenState.height = getWindow().innerHeight;
-        wwLib.wwVariable.updateValue(`${pluginId}-screenSize`, toRaw(screenState));
+        wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
     };
 
     const handleOrientationChange = () => {
