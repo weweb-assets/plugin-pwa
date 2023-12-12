@@ -209,7 +209,7 @@ export const getDeviceInfo = pluginId => {
         deviceInfo.osVersion = androidMatch ? androidMatch[1] : 'Unknown';
     }
 
-    wwLib.wwVariable.updateValue(`${pluginId}-deviceInfo`, this.getDeviceInfo);
+    wwLib.wwVariable.updateValue(`${pluginId}-deviceInfo`, deviceInfo);
 
     return deviceInfo;
 };
