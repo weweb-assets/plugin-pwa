@@ -22,6 +22,7 @@ export default {
     screenOrientationState: null,
     ambientLightState: null,
     deviceMotionState: null,
+    deviceInfo: null,
 
     async onLoad(settings) {
         this.networkState = listenNetwork(this.id);
