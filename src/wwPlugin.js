@@ -12,6 +12,7 @@ import {
     listenScreen,
     listenAmbientLight,
     listenDeviceMotion,
+    getDeviceInfo,
 } from './variables';
 
 export default {
@@ -29,8 +30,7 @@ export default {
         this.screenOrientationState = listenScreen(this.id);
         this.ambientLightState = listenAmbientLight(this.id);
         this.deviceMotionState = listenDeviceMotion(this.id);
-
-        console.log('Plugin loaded 🔥', this);
+        this.deviceInfo = getDeviceInfo(this.id);
     },
     async geolocation() {
         return geolocation();

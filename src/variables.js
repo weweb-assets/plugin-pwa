@@ -181,3 +181,35 @@ export const listenDeviceMotion = pluginId => {
 
     return motionState;
 };
+
+export const getDeviceInfo = pluginId => {
+    const userAgent = navigator.userAgent;
+    let deviceInfo = {
+        device: 'Unknown',
+        os: 'Unknown',
+        osVersion: 'Unknown',
+        browserIdentifier: userAgent.split(' ')[0].split('/')[0],
+        screenResolution: `${window.screen.width} x ${window.screen.height}`,
+        deviceType: /Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)
+            ? 'Mobile'
+            : 'Desktop',
+        language: navigator.language || navigator.userLanguage,
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        hardwareConcurrency: navigator.hardwareConcurrency,
+    };
+
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        const iosMatch = /OS (\d+)(?:_(\d+))?(?:_(\d+))?/.exec(userAgent);
+        deviceInfo.os = 'iOS';
+        deviceInfo.osVersion = iosMatch ? `${iosMatch[1]}.${iosMatch[2] || 0}.${iosMatch[3] || 0}` : 'Unknown';
+        deviceInfo.device = /iPad/.test(userAgent) ? 'iPad' : /iPhone/.test(userAgent) ? 'iPhone' : 'iPod';
+    } else if (/Android/.test(userAgent)) {
+        const androidMatch = /Android\s([\d.]+)/.exec(userAgent);
+        deviceInfo.os = 'Android';
+        deviceInfo.osVersion = androidMatch ? androidMatch[1] : 'Unknown';
+    }
+
+    wwLib.wwVariable.updateValue(`${pluginId}-deviceInfo`, this.getDeviceInfo);
+
+    return deviceInfo;
+};
