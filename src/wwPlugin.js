@@ -22,7 +22,7 @@ export default {
     screenOrientationState: null,
     ambientLightState: null,
     deviceMotionState: null,
-    deviceInfo: null,
+    deviceInfoState: null,
 
     async onLoad(settings) {
         this.networkState = listenNetwork(this.id);
@@ -31,7 +31,7 @@ export default {
         this.screenOrientationState = listenScreen(this.id);
         this.ambientLightState = listenAmbientLight(this.id);
         this.deviceMotionState = listenDeviceMotion(this.id);
-        this.deviceInfo = getDeviceInfo(this.id);
+        this.deviceInfoState = getDeviceInfo(this.id);
     },
     async geolocation() {
         return geolocation();
