@@ -189,7 +189,6 @@ export const getDeviceInfo = pluginId => {
         os: 'Unknown',
         osVersion: 'Unknown',
         browserIdentifier: userAgent.split(' ')[0].split('/')[0],
-        screenResolution: `${window.screen.width} x ${window.screen.height}`,
         deviceType: /Mobile|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)
             ? 'Mobile'
             : 'Desktop',
