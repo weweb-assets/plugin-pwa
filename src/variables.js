@@ -41,6 +41,7 @@ export const listenNetwork = pluginId => {
             saveData: false,
             type: 'unknown',
         },
+        supported: 'connection' in navigator,
     });
 
     const handleNetworkChange = () => {
@@ -66,6 +67,7 @@ export const listenBattery = pluginId => {
         charging: false,
         chargingTime: -1,
         dischargingTime: -1,
+        supported: 'getBattery' in navigator,
     });
 
     const handleBatteryChange = battery => {
@@ -76,19 +78,22 @@ export const listenBattery = pluginId => {
         wwLib.wwVariable.updateValue(`${pluginId}-battery`, toRaw(batteryStatus));
     };
 
-    navigator.getBattery().then(battery => {
-        handleBatteryChange(battery);
-        battery.addEventListener('chargingchange', () => handleBatteryChange(battery));
-        battery.addEventListener('levelchange', () => handleBatteryChange(battery));
-        battery.addEventListener('chargingtimechange', () => handleBatteryChange(battery));
-        battery.addEventListener('dischargingtimechange', () => handleBatteryChange(battery));
-    });
+    if (batteryStatus.supported) {
+        navigator.getBattery().then(battery => {
+            handleBatteryChange(battery);
+            battery.addEventListener('chargingchange', () => handleBatteryChange(battery));
+            battery.addEventListener('levelchange', () => handleBatteryChange(battery));
+            battery.addEventListener('chargingtimechange', () => handleBatteryChange(battery));
+            battery.addEventListener('dischargingtimechange', () => handleBatteryChange(battery));
+        });
+    }
 
     return batteryStatus;
 };
 
 export const listenPageVisibility = pluginId => {
     const isVisible = ref(!getDocument().hidden);
+    const supported = 'visibilityState' in getDocument();
 
     const handleVisibilityChange = () => {
         isVisible.value = !getDocument().hidden;
@@ -100,7 +105,7 @@ export const listenPageVisibility = pluginId => {
 
     handleVisibilityChange();
 
-    return isVisible;
+    return { isVisible, supported };
 };
 
 export const listenScreen = pluginId => {
