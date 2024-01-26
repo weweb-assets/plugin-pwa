@@ -22,11 +22,11 @@ export default {
         { name: 'deviceInfo', value: 'deviceInfo', type: 'object', defaultValue: null },
     ],
     actions: [
-        // {
-        //     name: 'Add To Home Screen',
-        //     code: 'promptInstall',
-        //     isAsync: true,
-        // },
+        {
+            name: 'Add To Home Screen',
+            code: 'installPwa',
+            isAsync: true,
+        },
         {
             name: 'Geolocation',
             code: 'geolocation',

@@ -48,4 +48,15 @@ export default {
     async connectBluetooth(bluetoothOptions) {
         return connectBluetooth(bluetoothOptions);
     },
+    async installPwa() {
+        if (window.deferredPrompt) {
+            try {
+                await window.deferredPrompt.prompt();
+            } catch (error) {
+                throw new Error('PWA installation failed');
+            }
+        } else {
+            throw new Error('Install prompt not available');
+        }
+    },
 };
