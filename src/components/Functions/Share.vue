@@ -26,30 +26,6 @@
         placeholder="Enter the url"
         @update:modelValue="setUrl"
     />
-    <wwEditorInputRow
-        label="Files"
-        type="array"
-        :model-value="share_files"
-        bindable
-        @update:modelValue="setFiles"
-        @add-item="setFiles([...(share_files || []), {}])"
-    >
-        <template #default="{ item, setItem }">
-            <wwEditorInputRow
-                :model-value="item.key"
-                type="query"
-                small
-                bindable
-                placeholder="Enter the file name"
-                @update:model-value="setItem({ ...item, key: $event })"
-            />
-            <wwEditorInputFile
-                :model-value="item.value"
-                small
-                @update:model-value="setItem({ ...item, value: $event })"
-            />
-        </template>
-    </wwEditorInputRow>
 </template>
 
 <script>
@@ -82,9 +58,6 @@ export default {
         },
         setUrl(share_url) {
             this.$emit('update:args', { ...this.args, share_url });
-        },
-        setFiles(share_files) {
-            this.$emit('update:args', { ...this.args, share_files });
         },
     },
 };
