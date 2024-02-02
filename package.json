@@ -1,17 +1,14 @@
 {
-    "name": "plugin-supabase-auth",
+    "name": "plugin-pwa",
     "repository": {
         "type": "git",
-        "url": "https://github.com/weweb-assets/plugin-supabase-auth"
+        "url": "https://github.com/weweb-assets/plugin-pwa"
     },
     "version": "3.1.0",
     "license": "MIT",
     "scripts": {
         "build": "weweb build",
         "serve": "weweb serve"
-    },
-    "dependencies": {
-        "@supabase/supabase-js": "^1.35.3"
     },
     "devDependencies": {
         "@vue/eslint-config-prettier": "^6.0.0",
@@ -20,5 +17,8 @@
         "eslint-plugin-prettier": "^3.1.4",
         "eslint-plugin-vue": "7.0.0-beta.4",
         "prettier": "^2.1.2"
+    },
+    "dependencies": {
+        "device-detector-js": "^3.0.3"
     }
 }
