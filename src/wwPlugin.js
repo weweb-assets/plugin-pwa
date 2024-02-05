@@ -2,7 +2,7 @@
 import { geolocation } from './services/geolocation';
 import { share } from './services/share';
 import { vibrate } from './services/vibrate';
-import { sendNotification } from './services/notification';
+import { showNotification } from './services/notification';
 import { connectBluetooth } from './services/bluetooth';
 
 import {
@@ -42,8 +42,8 @@ export default {
     async vibrate(vibrateOptions) {
         return vibrate(vibrateOptions);
     },
-    async sendNotification(notificationOptions) {
-        return sendNotification(notificationOptions);
+    async showNotification(notificationOptions) {
+        return showNotification(notificationOptions);
     },
     async connectBluetooth(bluetoothOptions) {
         return connectBluetooth(bluetoothOptions);

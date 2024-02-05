@@ -55,11 +55,11 @@ export default {
             /* wwEditor:end */
         },
         {
-            name: 'Send Notification',
-            code: 'sendNotification',
+            name: 'Show Notification',
+            code: 'showNotification',
             isAsync: true,
             /* wwEditor:start */
-            edit: () => import('./src/components/Functions/SendNotification.vue'),
+            edit: () => import('./src/components/Functions/ShowNotification.vue'),
             getIsValid({ notif_title, notif_body }) {
                 return !!notif_title && !!notif_body;
             },
