@@ -65,16 +65,17 @@ export default {
             },
             /* wwEditor:end */
         },
-        {
-            name: 'Connect Bluetooth',
-            code: 'connectBluetooth',
-            isAsync: true,
-            /* wwEditor:start */
-            edit: () => import('./src/components/Functions/Bluetooth.vue'),
-            getIsValid({ bluetoothServices }) {
-                return bluetoothServices && bluetoothServices.length > 0;
-            },
-            /* wwEditor:end */
-        },
+        // Waiting for more use cases / qualifications
+        // {
+        //     name: 'Connect Bluetooth',
+        //     code: 'connectBluetooth',
+        //     isAsync: true,
+        //     /* wwEditor:start */
+        //     edit: () => import('./src/components/Functions/Bluetooth.vue'),
+        //     getIsValid({ bluetoothServices }) {
+        //         return bluetoothServices && bluetoothServices.length > 0;
+        //     },
+        //     /* wwEditor:end */
+        // },
     ],
 };
