@@ -2,6 +2,7 @@ import { reactive, ref, toRaw } from 'vue';
 import DeviceDetector from 'device-detector-js';
 
 const deviceDetector = new DeviceDetector();
+const isPwaInstalled = ref(false);
 
 const getDocument = () => {
     let doc;
@@ -194,4 +195,27 @@ export const getDeviceInfo = pluginId => {
     let deviceInfo = deviceDetector.parse(navigator.userAgent);
     wwLib.wwVariable.updateValue(`${pluginId}-deviceInfo`, deviceInfo);
     return deviceInfo;
+};
+
+export const listenPwa = pluginId => {
+    const supported = 'serviceWorker' in navigator;
+    const isInstalled = false;
+
+    if (supported) {
+        isInstalled = checkPwaInstallation();
+    }
+
+    window.addEventListener('beforeinstallprompt', () => {
+        isInstalled = false;
+        wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
+    });
+
+    const checkPwaInstallation = () => {
+        return navigator.serviceWorker.controller !== null && navigator.serviceWorker.controller.state === 'activated';
+    };
+
+    isPwaInstalled.value = isInstalled;
+    wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
+
+    return isInstalled;
 };

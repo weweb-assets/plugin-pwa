@@ -13,6 +13,7 @@ import {
     listenAmbientLight,
     listenDeviceMotion,
     getDeviceInfo,
+    listenPwa,
 } from './variables';
 
 export default {
@@ -23,6 +24,7 @@ export default {
     ambientLightState: null,
     deviceMotionState: null,
     deviceInfoState: null,
+    pwaState: null,
 
     async onLoad(settings) {
         this.networkState = listenNetwork(this.id);
@@ -32,6 +34,7 @@ export default {
         this.ambientLightState = listenAmbientLight(this.id);
         this.deviceMotionState = listenDeviceMotion(this.id);
         this.deviceInfoState = getDeviceInfo(this.id);
+        this.pwaState = listenPwa(this.id);
     },
     async geolocation() {
         return geolocation();

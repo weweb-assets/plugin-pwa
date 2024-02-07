@@ -20,6 +20,7 @@ export default {
         { name: 'ambientLight', value: 'ambientLight', type: 'object', defaultValue: null },
         { name: 'deviceMotion', value: 'deviceMotion', type: 'object', defaultValue: null },
         { name: 'deviceInfo', value: 'deviceInfo', type: 'object', defaultValue: null },
+        { name: 'isPwaInstalled', value: 'isPwaInstalled', type: 'boolean', defaultValue: false },
     ],
     actions: [
         {
