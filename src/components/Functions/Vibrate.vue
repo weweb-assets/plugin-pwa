@@ -20,7 +20,7 @@ export default {
     emits: ['update:args'],
     data() {
         return {
-            vibrationHelp: `The vibration pattern is an array of numbers that describes the pattern with which the device should vibrate. The values are in milliseconds. The first value indicates the number of milliseconds to wait before turning the vibration on. The next value indicates the number of milliseconds for which to keep the vibration on before turning it off. Subsequent values alternate between the number of milliseconds to turn the vibration off or to turn the vibration on.`,
+            vibrationHelp: `The vibration pattern is an array of numbers that describes the pattern with which the device should vibrate: [200, 500, 200, 500]. <br/>The values are in milliseconds. The first value indicates the number of milliseconds to wait before turning the vibration on. The next value indicates the number of milliseconds for which to keep the vibration on before turning it off.  <br/>Subsequent values alternate between the number of milliseconds to turn the vibration off or to turn the vibration on.`,
         };
     },
     computed: {
