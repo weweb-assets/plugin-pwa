@@ -56,7 +56,6 @@ export default {
             getIsValid({ vibrate_pattern }) {
                 return vibrate_pattern && Array.isArray(vibrate_pattern) && vibrate_pattern.length > 0;
             },
-            actionHelp: VIBRATE_HELP,
             keywords: ['Android'],
             /* wwEditor:end */
         },
