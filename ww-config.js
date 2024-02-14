@@ -1,3 +1,11 @@
+/* wwEditor:start */
+const VIBRATE_HELP = `
+Vibrate feature is for now only available on Android. <br>
+
+<a href="https://developer.mozilla.org/fr/docs/Web/API/Navigator/vibrate#compatibilit%C3%A9_des_navigateurs" target="_blank">More information</a> <br>
+`;
+/* wwEditor:end */
+
 export default {
     editor: {
         settings: [
@@ -53,6 +61,7 @@ export default {
             getIsValid({ vibrate_pattern }) {
                 return vibrate_pattern && Array.isArray(vibrate_pattern) && vibrate_pattern.length > 0;
             },
+            actionHelp: VIBRATE_HELP,
             /* wwEditor:end */
         },
         {
