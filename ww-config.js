@@ -30,7 +30,7 @@ export default {
             keywords: ['Android', 'iOS'],
         },
         {
-            name: 'Geolocation',
+            name: 'Geolocate',
             code: 'geolocation',
             isAsync: true,
             keywords: ['Android', 'iOS'],
