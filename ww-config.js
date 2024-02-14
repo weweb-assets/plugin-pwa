@@ -1,11 +1,3 @@
-/* wwEditor:start */
-const VIBRATE_HELP = `
-Vibrate feature is for now only available on Android. <br>
-
-<a href="https://developer.mozilla.org/fr/docs/Web/API/Navigator/vibrate#compatibilit%C3%A9_des_navigateurs" target="_blank">More information</a> <br>
-`;
-/* wwEditor:end */
-
 export default {
     editor: {
         settings: [
@@ -35,11 +27,13 @@ export default {
             name: 'Add To Home Screen',
             code: 'installPwa',
             isAsync: true,
+            keywords: ['Android', 'iOS'],
         },
         {
             name: 'Geolocation',
             code: 'geolocation',
             isAsync: true,
+            keywords: ['Android', 'iOS'],
         },
         {
             name: 'Share',
@@ -50,6 +44,7 @@ export default {
             getIsValid({ share_title, share_url }) {
                 return !!share_title && !!share_url;
             },
+            keywords: ['Android', 'iOS'],
             /* wwEditor:end */
         },
         {
@@ -62,6 +57,7 @@ export default {
                 return vibrate_pattern && Array.isArray(vibrate_pattern) && vibrate_pattern.length > 0;
             },
             actionHelp: VIBRATE_HELP,
+            keywords: ['Android'],
             /* wwEditor:end */
         },
         {
@@ -73,6 +69,7 @@ export default {
             getIsValid({ notif_title }) {
                 return !!notif_title;
             },
+            keywords: ['Android', 'iOS'],
             /* wwEditor:end */
         },
         // Waiting for more use cases / qualifications
