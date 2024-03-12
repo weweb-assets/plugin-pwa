@@ -202,11 +202,13 @@ export const listenPwa = pluginId => {
 
     const handleBeforeInstallPrompt = () => {
         isInstalled = false;
+        wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
     };
 
     getWindow().addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
     if (supported) {
+        isInstalled = false;
         wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
     } else {
         isInstalled = false;
