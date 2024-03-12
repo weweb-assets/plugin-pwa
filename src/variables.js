@@ -216,6 +216,7 @@ export const listenPwa = pluginId => {
         wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, {
             isInstalled,
             supported: 'serviceWorker' in navigator,
+            info: 'iOS Safari may not reliably report the installed state of this PWA. Please be aware of potential limitations in tracking its installation status on iOS devices.',
         });
     });
 
