@@ -197,7 +197,6 @@ export const getDeviceInfo = pluginId => {
 };
 
 export const listenPwa = pluginId => {
-    const supported = 'serviceWorker' in navigator;
     let isInstalled = true;
 
     const handleBeforeInstallPrompt = () => {
@@ -207,7 +206,7 @@ export const listenPwa = pluginId => {
 
     getWindow().addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
-    if (supported) {
+    if ('serviceWorker' in navigator) {
         isInstalled = false;
         wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
     } else {
