@@ -2,7 +2,6 @@ import { reactive, ref, toRaw } from 'vue';
 import DeviceDetector from 'device-detector-js';
 
 const deviceDetector = new DeviceDetector();
-const isPwaInstalled = ref(false);
 
 const getDocument = () => {
     let doc;
@@ -199,26 +198,16 @@ export const getDeviceInfo = pluginId => {
 
 export const listenPwa = pluginId => {
     const supported = 'serviceWorker' in navigator;
-    let isInstalled = false;
+    let isInstalled = true;
 
-    const checkPwaInstallation = () => {
-        return new Promise(resolve => {
-            if (!window.matchMedia('(display-mode: standalone)').matches) {
-                // Not in standalone mode (PWA is not installed)
-                resolve(false);
-            } else {
-                // Already in standalone mode (PWA is installed)
-                resolve(true);
-            }
-        });
+    getWindow().addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    const handleBeforeInstallPrompt = () => {
+        isInstalled = false;
     };
 
     if (supported) {
-        checkPwaInstallation().then(installed => {
-            isInstalled = installed;
-            isPwaInstalled.value = isInstalled;
-            wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
-        });
+        wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
     }
 
     return isInstalled;
