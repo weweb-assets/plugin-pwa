@@ -208,6 +208,9 @@ export const listenPwa = pluginId => {
 
     if (supported) {
         wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
+    } else {
+        isInstalled = false;
+        wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
     }
 
     return isInstalled;
