@@ -208,7 +208,6 @@ export const listenPwa = pluginId => {
 
     if ('serviceWorker' in navigator) {
         if (!isInstalled) {
-            isInstalled = true;
             wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
         }
     } else {
