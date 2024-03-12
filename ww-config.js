@@ -27,7 +27,10 @@ export default {
             name: 'Add To Home Screen',
             code: 'installPwa',
             isAsync: true,
+            /* wwEditor:start */
+            edit: () => import('./src/components/Functions/AddToHomeScreen.vue'),
             keywords: ['Android'],
+            /* wwEditor:end */
         },
         {
             name: 'Geolocate',
