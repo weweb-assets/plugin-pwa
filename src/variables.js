@@ -199,15 +199,16 @@ export const getDeviceInfo = pluginId => {
 
 export const listenPwa = pluginId => {
     const supported = 'serviceWorker' in navigator;
-    const isInstalled = false;
-
-    if (supported) {
-        isInstalled = checkPwaInstallation();
-    }
 
     const checkPwaInstallation = () => {
         return navigator.serviceWorker.controller !== null && navigator.serviceWorker.controller.state === 'activated';
     };
+
+    let isInstalled = false;
+
+    if (supported) {
+        isInstalled = checkPwaInstallation();
+    }
 
     isPwaInstalled.value = isInstalled;
     wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
