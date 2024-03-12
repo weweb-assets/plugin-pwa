@@ -197,18 +197,20 @@ export const getDeviceInfo = pluginId => {
 };
 
 export const listenPwa = pluginId => {
-    let isInstalled = true;
+    let isInstalled = false;
 
     const handleBeforeInstallPrompt = () => {
-        isInstalled = false;
+        isInstalled = true;
         wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
     };
 
     getWindow().addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
     if ('serviceWorker' in navigator) {
-        isInstalled = false;
-        wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
+        if (!isInstalled) {
+            isInstalled = true;
+            wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
+        }
     } else {
         isInstalled = false;
         wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
