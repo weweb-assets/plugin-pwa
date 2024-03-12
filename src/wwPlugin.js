@@ -52,9 +52,10 @@ export default {
         return connectBluetooth(bluetoothOptions);
     },
     async installPwa() {
-        if (window.deferredPrompt) {
+        console.log('installPwa', wwLib, wwLib.installPwaPrompt);
+        if (wwLib.installPwaPrompt) {
             try {
-                await window.deferredPrompt.prompt();
+                await wwLib.installPwaPrompt.prompt();
             } catch (error) {
                 throw new Error('PWA installation failed');
             }

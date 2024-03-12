@@ -205,11 +205,6 @@ export const listenPwa = pluginId => {
         isInstalled = checkPwaInstallation();
     }
 
-    window.addEventListener('beforeinstallprompt', () => {
-        isInstalled = false;
-        wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
-    });
-
     const checkPwaInstallation = () => {
         return navigator.serviceWorker.controller !== null && navigator.serviceWorker.controller.state === 'activated';
     };
