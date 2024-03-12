@@ -199,19 +199,27 @@ export const getDeviceInfo = pluginId => {
 
 export const listenPwa = pluginId => {
     const supported = 'serviceWorker' in navigator;
-
-    const checkPwaInstallation = () => {
-        return navigator.serviceWorker.controller !== null && navigator.serviceWorker.controller.state === 'activated';
-    };
-
     let isInstalled = false;
 
-    if (supported) {
-        isInstalled = checkPwaInstallation();
-    }
+    const checkPwaInstallation = () => {
+        return new Promise(resolve => {
+            if (!window.matchMedia('(display-mode: standalone)').matches) {
+                // Not in standalone mode (PWA is not installed)
+                resolve(false);
+            } else {
+                // Already in standalone mode (PWA is installed)
+                resolve(true);
+            }
+        });
+    };
 
-    isPwaInstalled.value = isInstalled;
-    wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
+    if (supported) {
+        checkPwaInstallation().then(installed => {
+            isInstalled = installed;
+            isPwaInstalled.value = isInstalled;
+            wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
+        });
+    }
 
     return isInstalled;
 };
