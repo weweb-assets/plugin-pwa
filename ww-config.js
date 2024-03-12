@@ -27,7 +27,7 @@ export default {
             name: 'Add To Home Screen',
             code: 'installPwa',
             isAsync: true,
-            keywords: ['Android', 'iOS'],
+            keywords: ['Android'],
         },
         {
             name: 'Geolocate',
