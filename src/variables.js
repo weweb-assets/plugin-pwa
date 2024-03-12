@@ -200,11 +200,11 @@ export const listenPwa = pluginId => {
     const supported = 'serviceWorker' in navigator;
     let isInstalled = true;
 
-    getWindow().addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
     const handleBeforeInstallPrompt = () => {
         isInstalled = false;
     };
+
+    getWindow().addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
     if (supported) {
         wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, isInstalled);
