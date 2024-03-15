@@ -168,10 +168,14 @@ export const listenPwa = pluginId => {
 };
 
 const isPwa = () => {
-    const supportedDisplayModes = ['fullscreen', 'standalone', 'minimal-ui'];
-    return (
-        supportedDisplayModes.some(
-            displayMode => getWindow().matchMedia('(display-mode: ' + displayMode + ')').matches
-        ) && !getWindow().matchMedia('(display-mode: browser)').matches
-    );
+    // const supportedDisplayModes = ['fullscreen', 'standalone', 'minimal-ui'];
+    // return (
+    //     supportedDisplayModes.some(
+    //         displayMode => getWindow().matchMedia('(display-mode: ' + displayMode + ')').matches
+    //     ) && !getWindow().matchMedia('(display-mode: browser)').matches
+    // );
+
+    const displayModes = ['fullscreen', 'standalone', 'minimal-ui', 'browser'];
+
+    return displayModes.filter(displayMode => window.matchMedia('(display-mode: ' + displayMode + ')').matches);
 };

@@ -29,7 +29,7 @@ export default {
             },
         },
         { name: 'deviceInfo', value: 'deviceInfo', type: 'object', defaultValue: null },
-        { name: 'isPwaInstalled', value: 'isPwaInstalled', type: 'object', defaultValue: null },
+        { name: 'isPwaInstalled', value: 'isPwaInstalled', type: 'array', defaultValue: [] },
     ],
     actions: [
         {
