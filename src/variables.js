@@ -177,5 +177,5 @@ const isPwa = () => {
 
     const displayModes = ['fullscreen', 'standalone', 'minimal-ui', 'browser'];
 
-    return displayModes.filter(displayMode => window.matchMedia('(display-mode: ' + displayMode + ')').matches);
+    return displayModes.filter(displayMode => getWindow().matchMedia('(display-mode: ' + displayMode + ')').matches);
 };
