@@ -109,12 +109,10 @@ export const listenPageVisibility = pluginId => {
 };
 
 export const listenScreen = pluginId => {
-    const screenState = reactive({
-        orientation: {},
-    });
+    const screenState = reactive({});
 
     const handleOrientationChange = event => {
-        screenState.orientation = {
+        screenState = {
             alpha: event.alpha,
             beta: event.beta,
             gamma: event.gamma,
