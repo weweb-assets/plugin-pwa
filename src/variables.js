@@ -148,16 +148,12 @@ export const listenPwa = pluginId => {
 
     const checkPwaInstallation = () => {
         return new Promise(resolve => {
-            if (
-                ['fullscreen', 'standalone', 'minimal-ui'].some(
-                    displayMode => !getWindow().matchMedia('(display-mode: ' + displayMode + ')').matches
-                )
-            ) {
-                // Not in standalone mode (PWA is not installed)
-                resolve(false);
-            } else {
+            if (isPwa()) {
                 // Already in standalone mode (PWA is installed)
                 resolve(true);
+            } else {
+                // Not in standalone mode (PWA is not installed)
+                resolve(false);
             }
         });
     };
@@ -171,4 +167,10 @@ export const listenPwa = pluginId => {
     });
 
     return isInstalled;
+};
+
+const isPwa = () => {
+    return ['fullscreen', 'standalone', 'minimal-ui'].some(
+        displayMode => window.matchMedia('(display-mode: ' + displayMode + ')').matches
+    );
 };
