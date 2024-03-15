@@ -148,12 +148,16 @@ export const listenPwa = pluginId => {
 
     const checkPwaInstallation = () => {
         return new Promise(resolve => {
-            if (!getWindow().matchMedia('(display-mode: standalone)').matches) {
-                // Not in standalone mode (PWA is not installed)
-                resolve(false);
-            } else {
+            if (
+                ['fullscreen', 'standalone', 'minimal-ui'].some(
+                    displayMode => getWindow().matchMedia('(display-mode: ' + displayMode + ')').matches
+                )
+            ) {
                 // Already in standalone mode (PWA is installed)
                 resolve(true);
+            } else {
+                // Not in standalone mode (PWA is not installed)
+                resolve(false);
             }
         });
     };
