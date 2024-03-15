@@ -148,7 +148,7 @@ export const listenPwa = pluginId => {
 
     const checkPwaInstallation = () => {
         return new Promise(resolve => {
-            if (isPwa()) {
+            if (getWindow().matchMedia('(display-mode: standalone)').matches) {
                 resolve(true);
             } else {
                 resolve(false);
@@ -165,17 +165,4 @@ export const listenPwa = pluginId => {
     });
 
     return isInstalled;
-};
-
-const isPwa = () => {
-    // const supportedDisplayModes = ['fullscreen', 'standalone', 'minimal-ui'];
-    // return (
-    //     supportedDisplayModes.some(
-    //         displayMode => getWindow().matchMedia('(display-mode: ' + displayMode + ')').matches
-    //     ) && !getWindow().matchMedia('(display-mode: browser)').matches
-    // );
-
-    const displayModes = ['fullscreen', 'standalone', 'minimal-ui', 'browser'];
-
-    return displayModes.filter(displayMode => getWindow().matchMedia('(display-mode: ' + displayMode + ')').matches);
 };
