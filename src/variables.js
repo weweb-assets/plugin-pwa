@@ -109,7 +109,7 @@ export const listenPageVisibility = pluginId => {
 };
 
 export const listenScreen = pluginId => {
-    const screenState = reactive({});
+    let screenState = { alpha: 0, beta: 0, gamma: 0 };
 
     const handleOrientationChange = event => {
         screenState = {
@@ -118,7 +118,7 @@ export const listenScreen = pluginId => {
             gamma: event.gamma,
         };
 
-        wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
+        wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, screenState);
     };
 
     getWindow().addEventListener('resize', handleResize);
