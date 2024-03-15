@@ -74,6 +74,38 @@ export default {
             keywords: ['Android', 'iOS'],
             /* wwEditor:end */
         },
+        {
+            name: 'Request Ambient Light Permission',
+            code: 'requestAmbientLightPermission',
+            isAsync: true,
+            /* wwEditor:start */
+            keywords: ['Android', 'iOS'],
+            /* wwEditor:end */
+        },
+        {
+            name: 'Request Device Motion Permission',
+            code: 'requestDeviceMotionPermission',
+            isAsync: true,
+            /* wwEditor:start */
+            keywords: ['Android', 'iOS'],
+            /* wwEditor:end */
+        },
+        {
+            name: 'Listen Ambient Light',
+            code: 'listenAmbientLight',
+            isAsync: true,
+            /* wwEditor:start */
+            keywords: ['Android', 'iOS'],
+            /* wwEditor:end */
+        },
+        {
+            name: 'Listen Device Motion',
+            code: 'listenDeviceMotion',
+            isAsync: true,
+            /* wwEditor:start */
+            keywords: ['Android', 'iOS'],
+            /* wwEditor:end */
+        },
         // Waiting for more use cases / qualifications
         // {
         //     name: 'Connect Bluetooth',

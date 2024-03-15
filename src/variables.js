@@ -1,5 +1,4 @@
 import { reactive, ref, toRaw } from 'vue';
-import { requestDeviceMotionPermission, requestAmbientLightPermission } from './permissions';
 import DeviceDetector from 'device-detector-js';
 
 const deviceDetector = new DeviceDetector();
@@ -142,22 +141,30 @@ export const listenScreen = pluginId => {
 };
 
 export const listenAmbientLight = async pluginId => {
-    await requestAmbientLightPermission();
+    const sensor = ref(null);
 
     const lightState = reactive({
         illuminance: -1,
         supported: 'AmbientLightSensor' in getWindow(),
     });
 
-    if (lightState.supported) {
-        const sensor = new AmbientLightSensor();
+    const stopAmbientLightListener = () => {
+        if (sensor.value) {
+            sensor.value.removeEventListener('reading', () => handleAmbientLight(sensor.value));
+            sensor.value.stop();
+        }
+    };
 
-        sensor.addEventListener('reading', event => {
-            lightState.illuminance = sensor.illuminance;
+    if (lightState.supported) {
+        stopAmbientLightListener();
+        sensor.value = new AmbientLightSensor();
+
+        sensor.value.addEventListener('reading', event => {
+            lightState.illuminance = sensor.value.illuminance;
             wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
         });
 
-        sensor.start();
+        sensor.value.start();
     } else {
         wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
     }
@@ -166,8 +173,6 @@ export const listenAmbientLight = async pluginId => {
 };
 
 export const listenDeviceMotion = async pluginId => {
-    await requestDeviceMotionPermission();
-
     const motionState = reactive({
         acceleration: { x: -1, y: -1, z: -1 },
         accelerationIncludingGravity: { x: -1, y: -1, z: -1 },
@@ -186,6 +191,7 @@ export const listenDeviceMotion = async pluginId => {
     };
 
     if (motionState.supported) {
+        getWindow().removeEventListener('devicemotion', handleDeviceMotion);
         getWindow().addEventListener('devicemotion', handleDeviceMotion);
     }
 

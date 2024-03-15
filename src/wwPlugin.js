@@ -4,6 +4,8 @@ import { share } from './services/share';
 import { vibrate } from './services/vibrate';
 import { showNotification } from './services/notification';
 import { connectBluetooth } from './services/bluetooth';
+import { requestDeviceMotionPermission, requestAmbientLightPermission } from './permissions';
+import { listenAmbientLight, listenDeviceMotion } from './variables';
 
 import {
     listenNetwork,
@@ -21,8 +23,8 @@ export default {
     batteryState: null,
     pageVisibilityState: null,
     screenOrientationState: null,
-    ambientLightState: null,
-    deviceMotionState: null,
+    // ambientLightState: null,
+    // deviceMotionState: null,
     deviceInfoState: null,
     pwaState: null,
 
@@ -31,8 +33,8 @@ export default {
         this.batteryState = listenBattery(this.id);
         this.pageVisibilityState = listenPageVisibility(this.id);
         this.screenOrientationState = listenScreen(this.id);
-        this.ambientLightState = listenAmbientLight(this.id);
-        this.deviceMotionState = listenDeviceMotion(this.id);
+        // this.ambientLightState = listenAmbientLight(this.id);
+        // this.deviceMotionState = listenDeviceMotion(this.id);
         this.deviceInfoState = getDeviceInfo(this.id);
         this.pwaState = listenPwa(this.id);
     },
@@ -52,22 +54,16 @@ export default {
         return connectBluetooth(bluetoothOptions);
     },
     async requestDeviceMotionPermission() {
-        try {
-            if (typeof DeviceMotionEvent.requestPermission === 'function') {
-                await DeviceMotionEvent.requestPermission();
-            }
-        } catch (error) {
-            throw new Error('Device motion permission request failed', error);
-        }
+        return requestDeviceMotionPermission();
     },
     async requestAmbientLightPermission() {
-        try {
-            if (typeof AmbientLightSensor.requestPermission === 'function') {
-                await AmbientLightSensor.requestPermission();
-            }
-        } catch (error) {
-            throw new Error('Ambient light permission request failed', error);
-        }
+        return requestAmbientLightPermission();
+    },
+    async listenAmbientLight() {
+        return await listenAmbientLight(this.id);
+    },
+    async listenDeviceMotion() {
+        return await listenDeviceMotion(this.id);
     },
     async installPwa() {
         if (wwLib.installPwaPrompt) {
