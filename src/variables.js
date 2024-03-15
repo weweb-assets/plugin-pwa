@@ -188,9 +188,5 @@ export const listenPwa = pluginId => {
         });
     });
 
-    // if (wwLib.installPwaPrompt) {
-
-    // }
-
     return isInstalled;
 };

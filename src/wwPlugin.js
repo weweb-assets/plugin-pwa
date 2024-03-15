@@ -3,7 +3,6 @@ import { geolocation } from './services/geolocation';
 import { share } from './services/share';
 import { vibrate } from './services/vibrate';
 import { showNotification } from './services/notification';
-import { connectBluetooth } from './services/bluetooth';
 import { requestDeviceMotionPermission } from './permissions';
 
 import {
@@ -43,9 +42,6 @@ export default {
     },
     async showNotification(notificationOptions) {
         return showNotification(notificationOptions);
-    },
-    async connectBluetooth(bluetoothOptions) {
-        return connectBluetooth(bluetoothOptions);
     },
     async requestDeviceMotionPermission() {
         return requestDeviceMotionPermission();

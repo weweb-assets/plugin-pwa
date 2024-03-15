@@ -16,9 +16,24 @@ export default {
         { name: 'network', value: 'network', type: 'object', defaultValue: null },
         { name: 'battery', value: 'battery', type: 'object', defaultValue: null },
         { name: 'pageVisibility', value: 'pageVisibility', type: 'boolean', defaultValue: false },
-        { name: 'screenOrientation', value: 'screenOrientation', type: 'object', defaultValue: null },
-        { name: 'ambientLight', value: 'ambientLight', type: 'object', defaultValue: null },
-        { name: 'deviceMotion', value: 'deviceMotion', type: 'object', defaultValue: null },
+        {
+            name: 'screenOrientation',
+            value: 'screenOrientation',
+            type: 'object',
+            defaultValue: { alpha: 0, beta: 0, gamma: 0 },
+        },
+        {
+            name: 'deviceMotion',
+            value: 'deviceMotion',
+            type: 'object',
+            defaultValue: {
+                acceleration: { x: -1, y: -1, z: -1 },
+                accelerationIncludingGravity: { x: -1, y: -1, z: -1 },
+                rotationRate: { alpha: -1, beta: -1, gamma: -1 },
+                interval: -1,
+                supported: false,
+            },
+        },
         { name: 'deviceInfo', value: 'deviceInfo', type: 'object', defaultValue: null },
         { name: 'isPwaInstalled', value: 'isPwaInstalled', type: 'object', defaultValue: null },
     ],
@@ -90,17 +105,5 @@ export default {
             keywords: ['Android', 'iOS'],
             /* wwEditor:end */
         },
-        // Waiting for more use cases / qualifications
-        // {
-        //     name: 'Connect Bluetooth',
-        //     code: 'connectBluetooth',
-        //     isAsync: true,
-        //     /* wwEditor:start */
-        //     edit: () => import('./src/components/Functions/Bluetooth.vue'),
-        //     getIsValid({ bluetoothServices }) {
-        //         return bluetoothServices && bluetoothServices.length > 0;
-        //     },
-        //     /* wwEditor:end */
-        // },
     ],
 };
