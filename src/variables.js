@@ -108,28 +108,6 @@ export const listenPageVisibility = pluginId => {
     return { isVisible, supported };
 };
 
-export const listenScreen = pluginId => {
-    let screenState = { alpha: 0, beta: 0, gamma: 0 };
-
-    const handleOrientationChange = event => {
-        screenState = {
-            alpha: event.alpha,
-            beta: event.beta,
-            gamma: event.gamma,
-        };
-
-        wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, screenState);
-    };
-
-    getWindow().addEventListener('resize', handleResize);
-    getWindow().addEventListener('orientationchange', handleOrientationChange);
-
-    handleResize();
-    handleOrientationChange();
-
-    return screenState;
-};
-
 export const listenDeviceMotion = async pluginId => {
     const motionState = reactive({
         acceleration: { x: -1, y: -1, z: -1 },

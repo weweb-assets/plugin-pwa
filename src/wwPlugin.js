@@ -9,7 +9,6 @@ import {
     listenNetwork,
     listenBattery,
     listenPageVisibility,
-    listenScreen,
     listenDeviceMotion,
     getDeviceInfo,
     listenPwa,
@@ -27,7 +26,6 @@ export default {
         this.networkState = listenNetwork(this.id);
         this.batteryState = listenBattery(this.id);
         this.pageVisibilityState = listenPageVisibility(this.id);
-        this.screenOrientationState = listenScreen(this.id);
         this.deviceInfoState = getDeviceInfo(this.id);
         this.pwaState = listenPwa(this.id);
     },

@@ -17,12 +17,6 @@ export default {
         { name: 'battery', value: 'battery', type: 'object', defaultValue: null },
         { name: 'pageVisibility', value: 'pageVisibility', type: 'boolean', defaultValue: false },
         {
-            name: 'screenOrientation',
-            value: 'screenOrientation',
-            type: 'object',
-            defaultValue: { alpha: 0, beta: 0, gamma: 0 },
-        },
-        {
             name: 'deviceMotion',
             value: 'deviceMotion',
             type: 'object',
@@ -90,7 +84,7 @@ export default {
             /* wwEditor:end */
         },
         {
-            name: 'Request Orientation & Motion Permission',
+            name: 'Request Motion Permission',
             code: 'requestDeviceMotionPermission',
             isAsync: true,
             /* wwEditor:start */
