@@ -51,6 +51,24 @@ export default {
     async connectBluetooth(bluetoothOptions) {
         return connectBluetooth(bluetoothOptions);
     },
+    async requestDeviceMotionPermission() {
+        try {
+            if (typeof DeviceMotionEvent.requestPermission === 'function') {
+                await DeviceMotionEvent.requestPermission();
+            }
+        } catch (error) {
+            throw new Error('Device motion permission request failed', error);
+        }
+    },
+    async requestAmbientLightPermission() {
+        try {
+            if (typeof AmbientLightSensor.requestPermission === 'function') {
+                await AmbientLightSensor.requestPermission();
+            }
+        } catch (error) {
+            throw new Error('Ambient light permission request failed', error);
+        }
+    },
     async installPwa() {
         if (wwLib.installPwaPrompt) {
             try {

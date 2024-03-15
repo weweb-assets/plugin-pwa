@@ -1,4 +1,5 @@
 import { reactive, ref, toRaw } from 'vue';
+import { requestDeviceMotionPermission, requestAmbientLightPermission } from './permissions';
 import DeviceDetector from 'device-detector-js';
 
 const deviceDetector = new DeviceDetector();
@@ -140,7 +141,9 @@ export const listenScreen = pluginId => {
     return screenState;
 };
 
-export const listenAmbientLight = pluginId => {
+export const listenAmbientLight = async pluginId => {
+    await requestAmbientLightPermission();
+
     const lightState = reactive({
         illuminance: -1,
         supported: 'AmbientLightSensor' in getWindow(),
@@ -149,15 +152,10 @@ export const listenAmbientLight = pluginId => {
     if (lightState.supported) {
         const sensor = new AmbientLightSensor();
 
-        sensor.onreading = () => {
+        sensor.addEventListener('reading', event => {
             lightState.illuminance = sensor.illuminance;
             wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
-        };
-
-        sensor.onerror = event => {
-            lightState.supported = false;
-            wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
-        };
+        });
 
         sensor.start();
     } else {
@@ -167,7 +165,9 @@ export const listenAmbientLight = pluginId => {
     return lightState;
 };
 
-export const listenDeviceMotion = pluginId => {
+export const listenDeviceMotion = async pluginId => {
+    await requestDeviceMotionPermission();
+
     const motionState = reactive({
         acceleration: { x: -1, y: -1, z: -1 },
         accelerationIncludingGravity: { x: -1, y: -1, z: -1 },
@@ -223,6 +223,10 @@ export const listenPwa = pluginId => {
             info,
         });
     });
+
+    // if (wwLib.installPwaPrompt) {
+
+    // }
 
     return isInstalled;
 };
