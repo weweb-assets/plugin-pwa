@@ -121,18 +121,13 @@ export const listenScreen = pluginId => {
         wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
     };
 
-    const handleOrientationChange = event => {
-        console.log(`${event.alpha} : ${event.beta} : ${event.gamma}`);
-        screenState.orientation = {
-            alpha: event.alpha,
-            beta: event.beta,
-            gamma: event.gamma,
-        };
+    const handleOrientationChange = () => {
+        screenState.orientation = getWindow().screen.orientation.type || 'unknown';
         wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
     };
 
     getWindow().addEventListener('resize', handleResize);
-    getWindow().addEventListener('deviceorientation', handleOrientationChange);
+    getWindow().addEventListener('orientationchange', handleOrientationChange);
 
     handleResize();
     handleOrientationChange();
