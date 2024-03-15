@@ -110,19 +110,16 @@ export const listenPageVisibility = pluginId => {
 
 export const listenScreen = pluginId => {
     const screenState = reactive({
-        orientation: getWindow().screen.orientation.type || 'unknown',
-        width: getWindow().innerWidth,
-        height: getWindow().innerHeight,
+        orientation: {},
     });
 
-    const handleResize = () => {
-        screenState.width = getWindow().innerWidth;
-        screenState.height = getWindow().innerHeight;
-        wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
-    };
+    const handleOrientationChange = event => {
+        screenState.orientation = {
+            alpha: event.alpha,
+            beta: event.beta,
+            gamma: event.gamma,
+        };
 
-    const handleOrientationChange = () => {
-        screenState.orientation = getWindow().screen.orientation.type || 'unknown';
         wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
     };
 
@@ -133,38 +130,6 @@ export const listenScreen = pluginId => {
     handleOrientationChange();
 
     return screenState;
-};
-
-export const listenAmbientLight = async pluginId => {
-    const sensor = ref(null);
-
-    const lightState = reactive({
-        illuminance: -1,
-        supported: 'AmbientLightSensor' in getWindow(),
-    });
-
-    const stopAmbientLightListener = () => {
-        if (sensor.value) {
-            sensor.value.removeEventListener('reading', () => handleAmbientLight(sensor.value));
-            sensor.value.stop();
-        }
-    };
-
-    if (lightState.supported) {
-        stopAmbientLightListener();
-        sensor.value = new AmbientLightSensor();
-
-        sensor.value.addEventListener('reading', event => {
-            lightState.illuminance = sensor.value.illuminance;
-            wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
-        });
-
-        sensor.value.start();
-    } else {
-        wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
-    }
-
-    return lightState;
 };
 
 export const listenDeviceMotion = async pluginId => {

@@ -75,24 +75,8 @@ export default {
             /* wwEditor:end */
         },
         {
-            name: 'Request Ambient Light Permission',
-            code: 'requestAmbientLightPermission',
-            isAsync: true,
-            /* wwEditor:start */
-            keywords: ['Android', 'iOS'],
-            /* wwEditor:end */
-        },
-        {
-            name: 'Request Device Motion Permission',
+            name: 'Request Orientation & Motion Permission',
             code: 'requestDeviceMotionPermission',
-            isAsync: true,
-            /* wwEditor:start */
-            keywords: ['Android', 'iOS'],
-            /* wwEditor:end */
-        },
-        {
-            name: 'Listen Ambient Light',
-            code: 'listenAmbientLight',
             isAsync: true,
             /* wwEditor:start */
             keywords: ['Android', 'iOS'],

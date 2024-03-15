@@ -4,14 +4,13 @@ import { share } from './services/share';
 import { vibrate } from './services/vibrate';
 import { showNotification } from './services/notification';
 import { connectBluetooth } from './services/bluetooth';
-import { requestDeviceMotionPermission, requestAmbientLightPermission } from './permissions';
+import { requestDeviceMotionPermission } from './permissions';
 
 import {
     listenNetwork,
     listenBattery,
     listenPageVisibility,
     listenScreen,
-    listenAmbientLight,
     listenDeviceMotion,
     getDeviceInfo,
     listenPwa,
@@ -22,8 +21,6 @@ export default {
     batteryState: null,
     pageVisibilityState: null,
     screenOrientationState: null,
-    // ambientLightState: null,
-    // deviceMotionState: null,
     deviceInfoState: null,
     pwaState: null,
 
@@ -32,8 +29,6 @@ export default {
         this.batteryState = listenBattery(this.id);
         this.pageVisibilityState = listenPageVisibility(this.id);
         this.screenOrientationState = listenScreen(this.id);
-        // this.ambientLightState = listenAmbientLight(this.id);
-        // this.deviceMotionState = listenDeviceMotion(this.id);
         this.deviceInfoState = getDeviceInfo(this.id);
         this.pwaState = listenPwa(this.id);
     },
@@ -54,12 +49,6 @@ export default {
     },
     async requestDeviceMotionPermission() {
         return requestDeviceMotionPermission();
-    },
-    async requestAmbientLightPermission() {
-        return requestAmbientLightPermission();
-    },
-    async listenAmbientLight() {
-        return await listenAmbientLight(this.id);
     },
     async listenDeviceMotion() {
         return await listenDeviceMotion(this.id);
