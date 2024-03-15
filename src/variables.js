@@ -121,13 +121,18 @@ export const listenScreen = pluginId => {
         wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
     };
 
-    const handleOrientationChange = () => {
-        screenState.orientation = getWindow().screen.orientation.type || screenState.orientation;
+    const handleOrientationChange = event => {
+        console.log(`${event.alpha} : ${event.beta} : ${event.gamma}`);
+        screenState.orientation = {
+            alpha: event.alpha,
+            beta: event.beta,
+            gamma: event.gamma,
+        };
         wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
     };
 
     getWindow().addEventListener('resize', handleResize);
-    getWindow().addEventListener('orientationchange', handleOrientationChange);
+    getWindow().addEventListener('deviceorientation', handleOrientationChange);
 
     handleResize();
     handleOrientationChange();
@@ -182,11 +187,9 @@ export const listenDeviceMotion = pluginId => {
 
     if (motionState.supported) {
         getWindow().addEventListener('devicemotion', handleDeviceMotion);
-        wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
-    } else {
-        wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
     }
 
+    wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
     return motionState;
 };
 
@@ -198,6 +201,8 @@ export const getDeviceInfo = pluginId => {
 
 export const listenPwa = pluginId => {
     let isInstalled = false;
+    const info =
+        'iOS may not reliably report the installed state of this PWA. Please be aware of potential limitations in tracking its installation status on iOS devices.';
 
     const checkPwaInstallation = () => {
         return new Promise(resolve => {
@@ -215,7 +220,7 @@ export const listenPwa = pluginId => {
         isInstalled = installed;
         wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, {
             isInstalled,
-            info: 'iOS Safari may not reliably report the installed state of this PWA. Please be aware of potential limitations in tracking its installation status on iOS devices.',
+            info,
         });
     });
 
