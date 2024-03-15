@@ -168,7 +168,10 @@ export const listenPwa = pluginId => {
 };
 
 const isPwa = () => {
-    return ['fullscreen', 'standalone', 'minimal-ui'].some(
-        displayMode => getWindow().matchMedia('(display-mode: ' + displayMode + ')').matches
+    const supportedDisplayModes = ['fullscreen', 'standalone', 'minimal-ui'];
+    return (
+        supportedDisplayModes.some(
+            displayMode => getWindow().matchMedia('(display-mode: ' + displayMode + ')').matches
+        ) && !getWindow().matchMedia('(display-mode: browser)').matches
     );
 };
