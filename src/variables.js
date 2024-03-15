@@ -149,10 +149,8 @@ export const listenPwa = pluginId => {
     const checkPwaInstallation = () => {
         return new Promise(resolve => {
             if (isPwa()) {
-                // Already in standalone mode (PWA is installed)
                 resolve(true);
             } else {
-                // Not in standalone mode (PWA is not installed)
                 resolve(false);
             }
         });
