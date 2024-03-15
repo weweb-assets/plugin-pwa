@@ -5,7 +5,6 @@ import { vibrate } from './services/vibrate';
 import { showNotification } from './services/notification';
 import { connectBluetooth } from './services/bluetooth';
 import { requestDeviceMotionPermission, requestAmbientLightPermission } from './permissions';
-import { listenAmbientLight, listenDeviceMotion } from './variables';
 
 import {
     listenNetwork,
