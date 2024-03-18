@@ -142,27 +142,37 @@ export const getDeviceInfo = pluginId => {
 };
 
 export const listenPwa = pluginId => {
-    let isInstalled = false;
     const info =
         'iOS may not reliably report the installed state of this PWA. Please be aware of potential limitations in tracking its installation status on iOS devices.';
 
-    const checkPwaInstallation = () => {
-        return new Promise(resolve => {
-            if (getWindow().matchMedia('(display-mode: standalone)').matches) {
-                resolve(true);
-            } else {
-                resolve(false);
-            }
-        });
-    };
-
-    checkPwaInstallation().then(installed => {
-        isInstalled = installed;
-        wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, {
-            isInstalled,
-            info,
-        });
+    wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, {
+        isInstalled: isAppInstalled(),
+        info,
     });
 
     return isInstalled;
+};
+
+const isAppInstalled = () => {
+    // Check if the app is running in standalone mode (installed as PWA)
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+        return true;
+    }
+
+    // Check if the app is running on iOS Safari
+    if (
+        navigator.userAgent.includes('AppleWebKit') &&
+        !navigator.userAgent.includes('Chrome') &&
+        !navigator.userAgent.includes('CriOS')
+    ) {
+        return false; // iOS Safari doesn't support 'display-mode' media feature
+    }
+
+    // Check if the app is running on Android Chrome
+    if (navigator.userAgent.includes('Android') && navigator.userAgent.includes('Chrome')) {
+        return document.referrer.includes('android-app://');
+    }
+
+    // For iOS, there's no perfect way to detect the installation status due to Safari's limitations
+    return false;
 };
