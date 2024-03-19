@@ -154,9 +154,10 @@ export const listenPwa = pluginId => {
 };
 
 const isAppInstalled = () => {
-    return (
-        getWindow().matchMedia('(display-mode: standalone)').matches ||
-        getWindow().navigator.standalone ||
-        getDocument().referrer.includes('android-app://')
-    );
+    let installEvent = null;
+    let activateEvent = null;
+    getDocument().addEventListener('install', () => (installEvent = true));
+    getDocument().addEventListener('activate', () => (activateEvent = true));
+
+    return !installEvent && activateEvent;
 };
