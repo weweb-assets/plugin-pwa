@@ -154,27 +154,9 @@ export const listenPwa = pluginId => {
 };
 
 const isAppInstalled = () => {
-    // Check if the app is running in standalone mode (installed as PWA)
-    if (getWindow().matchMedia('(display-mode: standalone)').matches || getWindow().navigator.standalone) {
-        return true;
-    }
-
-    // Check if the app is running on iOS Safari
-    if (
-        navigator.userAgent.includes('AppleWebKit') &&
-        !navigator.userAgent.includes('Chrome') &&
-        !navigator.userAgent.includes('CriOS')
-    ) {
-        return false; // iOS Safari doesn't support 'display-mode' media feature
-    }
-
-    // Check if the app is running on Android Chrome
-    if (navigator.userAgent.includes('Android') && navigator.userAgent.includes('Chrome')) {
-        return (
-            getDocument().referrer.includes('android-app://') || getWindow().location.href.startsWith('android-app://')
-        );
-    }
-
-    // For iOS, there's no perfect way to detect the installation status due to Safari's limitations
-    return false;
+    return (
+        getWindow().matchMedia('(display-mode: standalone)').matches ||
+        getWindow().navigator.standalone ||
+        getDocument().referrer.includes('android-app://')
+    );
 };
