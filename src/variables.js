@@ -154,10 +154,7 @@ export const listenPwa = pluginId => {
 };
 
 const isAppInstalled = () => {
-    let installEvent = null;
-    let activateEvent = null;
-    getDocument().addEventListener('install', () => (installEvent = true));
-    getDocument().addEventListener('activate', () => (activateEvent = true));
-
-    return !installEvent && activateEvent;
+    const IOS = navigator.userAgent.match(/iPhone|iPad|iPod/);
+    const standalone = window.matchMedia('(display-mode: standalone)').matches;
+    return !!(standalone || (IOS && !navigator.userAgent.match(/Safari/)));
 };
