@@ -5,29 +5,21 @@ import { vibrate } from './services/vibrate';
 import { showNotification } from './services/notification';
 import { requestDeviceMotionPermission } from './permissions';
 
-import {
-    listenNetwork,
-    listenBattery,
-    listenPageVisibility,
-    listenDeviceMotion,
-    getDeviceInfo,
-    listenPwa,
-} from './variables';
+import { listenNetwork, listenBattery, listenPageVisibility, listenDeviceMotion, getDeviceInfo } from './variables';
 
 export default {
     networkState: null,
     batteryState: null,
     pageVisibilityState: null,
-    screenOrientationState: null,
+    deviceMotionState: null,
     deviceInfoState: null,
-    pwaState: null,
 
     async onLoad(settings) {
         this.networkState = listenNetwork(this.id);
         this.batteryState = listenBattery(this.id);
         this.pageVisibilityState = listenPageVisibility(this.id);
+        this.deviceMotionState = listenDeviceMotion(this.id);
         this.deviceInfoState = getDeviceInfo(this.id);
-        this.pwaState = listenPwa(this.id);
     },
     async geolocation() {
         return geolocation();

@@ -141,20 +141,20 @@ export const getDeviceInfo = pluginId => {
     return deviceInfo;
 };
 
-export const listenPwa = pluginId => {
-    const info =
-        'iOS may not reliably report the installed state of this PWA. Please be aware of potential limitations in tracking its installation status on iOS devices.';
+// export const listenPwa = pluginId => {
+//     const info =
+//         'iOS may not reliably report the installed state of this PWA. Please be aware of potential limitations in tracking its installation status on iOS devices.';
 
-    wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, {
-        isInstalled: isAppInstalled(),
-        info,
-    });
+//     wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, {
+//         isInstalled: isAppInstalled(),
+//         info,
+//     });
 
-    return isInstalled;
-};
+//     return isInstalled;
+// };
 
-const isAppInstalled = () => {
-    const IOS = navigator.userAgent.match(/iPhone|iPad|iPod/);
-    const standalone = window.matchMedia('(display-mode: standalone)').matches;
-    return !!(standalone || (IOS && !navigator.userAgent.match(/Safari/)));
-};
+// const isAppInstalled = () => {
+//     const IOS = navigator.userAgent.match(/iPhone|iPad|iPod/);
+//     const standalone = window.matchMedia('(display-mode: standalone)').matches;
+//     return !!(standalone || (IOS && !navigator.userAgent.match(/Safari/)));
+// };

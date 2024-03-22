@@ -8,9 +8,7 @@ export default {
                 summary: () => import('./src/components/Configuration/SettingsSummary.vue'),
             },
         ],
-        designSystemId: 'TO BE DEFINED',
-        // QR Code
-        // Media Capute
+        designSystemId: '"2158285b-a489-44b6-be61-5cab2bec46fb"',
     },
     variables: [
         { name: 'network', value: 'network', type: 'object', defaultValue: null },
@@ -29,7 +27,7 @@ export default {
             },
         },
         { name: 'deviceInfo', value: 'deviceInfo', type: 'object', defaultValue: null },
-        { name: 'isPwaInstalled', value: 'isPwaInstalled', type: 'object', defaultValue: null },
+        // { name: 'isPwaInstalled', value: 'isPwaInstalled', type: 'object', defaultValue: null },
     ],
     actions: [
         {
