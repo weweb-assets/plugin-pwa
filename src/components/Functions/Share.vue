@@ -13,7 +13,6 @@
         type="query"
         :model-value="share_text"
         bindable
-        required
         placeholder="Enter the text"
         @update:modelValue="setText"
     />

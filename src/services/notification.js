@@ -1,4 +1,4 @@
-export async function sendNotification({
+export async function showNotification({
     notif_title,
     notif_body,
     notif_icon,

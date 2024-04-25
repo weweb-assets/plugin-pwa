@@ -8,29 +8,42 @@ export default {
                 summary: () => import('./src/components/Configuration/SettingsSummary.vue'),
             },
         ],
-        designSystemId: 'TO BE DEFINED',
-        // QR Code
-        // Media Capute
+        designSystemId: '"2158285b-a489-44b6-be61-5cab2bec46fb"',
     },
     variables: [
         { name: 'network', value: 'network', type: 'object', defaultValue: null },
         { name: 'battery', value: 'battery', type: 'object', defaultValue: null },
         { name: 'pageVisibility', value: 'pageVisibility', type: 'boolean', defaultValue: false },
-        { name: 'screenOrientation', value: 'screenOrientation', type: 'object', defaultValue: null },
-        { name: 'ambientLight', value: 'ambientLight', type: 'object', defaultValue: null },
-        { name: 'deviceMotion', value: 'deviceMotion', type: 'object', defaultValue: null },
+        {
+            name: 'deviceMotion',
+            value: 'deviceMotion',
+            type: 'object',
+            defaultValue: {
+                acceleration: { x: -1, y: -1, z: -1 },
+                accelerationIncludingGravity: { x: -1, y: -1, z: -1 },
+                rotationRate: { alpha: -1, beta: -1, gamma: -1 },
+                interval: -1,
+                supported: false,
+            },
+        },
         { name: 'deviceInfo', value: 'deviceInfo', type: 'object', defaultValue: null },
+        // { name: 'isPwaInstalled', value: 'isPwaInstalled', type: 'object', defaultValue: null },
     ],
     actions: [
         {
             name: 'Add To Home Screen',
             code: 'installPwa',
             isAsync: true,
+            /* wwEditor:start */
+            edit: () => import('./src/components/Functions/AddToHomeScreen.vue'),
+            keywords: ['Android'],
+            /* wwEditor:end */
         },
         {
-            name: 'Geolocation',
+            name: 'Geolocate',
             code: 'geolocation',
             isAsync: true,
+            keywords: ['Android', 'iOS'],
         },
         {
             name: 'Share',
@@ -41,6 +54,7 @@ export default {
             getIsValid({ share_title, share_url }) {
                 return !!share_title && !!share_url;
             },
+            keywords: ['Android', 'iOS'],
             /* wwEditor:end */
         },
         {
@@ -52,28 +66,35 @@ export default {
             getIsValid({ vibrate_pattern }) {
                 return vibrate_pattern && Array.isArray(vibrate_pattern) && vibrate_pattern.length > 0;
             },
+            keywords: ['Android'],
             /* wwEditor:end */
         },
         {
-            name: 'Send Notification',
-            code: 'sendNotification',
+            name: 'Show Notification',
+            code: 'showNotification',
             isAsync: true,
             /* wwEditor:start */
-            edit: () => import('./src/components/Functions/SendNotification.vue'),
-            getIsValid({ notif_title, notif_body }) {
-                return !!notif_title && !!notif_body;
+            edit: () => import('./src/components/Functions/ShowNotification.vue'),
+            getIsValid({ notif_title }) {
+                return !!notif_title;
             },
+            keywords: ['Android', 'iOS'],
             /* wwEditor:end */
         },
         {
-            name: 'Connect Bluetooth',
-            code: 'connectBluetooth',
+            name: 'Request Motion Permission',
+            code: 'requestDeviceMotionPermission',
             isAsync: true,
             /* wwEditor:start */
-            edit: () => import('./src/components/Functions/Bluetooth.vue'),
-            getIsValid({ bluetoothServices }) {
-                return bluetoothServices && bluetoothServices.length > 0;
-            },
+            keywords: ['Android', 'iOS'],
+            /* wwEditor:end */
+        },
+        {
+            name: 'Listen Device Motion',
+            code: 'listenDeviceMotion',
+            isAsync: true,
+            /* wwEditor:start */
+            keywords: ['Android', 'iOS'],
             /* wwEditor:end */
         },
     ],

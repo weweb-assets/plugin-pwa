@@ -108,61 +108,7 @@ export const listenPageVisibility = pluginId => {
     return { isVisible, supported };
 };
 
-export const listenScreen = pluginId => {
-    const screenState = reactive({
-        orientation: getWindow().screen.orientation.type || 'unknown',
-        width: getWindow().innerWidth,
-        height: getWindow().innerHeight,
-    });
-
-    const handleResize = () => {
-        screenState.width = getWindow().innerWidth;
-        screenState.height = getWindow().innerHeight;
-        wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
-    };
-
-    const handleOrientationChange = () => {
-        screenState.orientation = getWindow().screen.orientation.type || screenState.orientation;
-        wwLib.wwVariable.updateValue(`${pluginId}-screenOrientation`, toRaw(screenState));
-    };
-
-    getWindow().addEventListener('resize', handleResize);
-    getWindow().addEventListener('orientationchange', handleOrientationChange);
-
-    handleResize();
-    handleOrientationChange();
-
-    return screenState;
-};
-
-export const listenAmbientLight = pluginId => {
-    const lightState = reactive({
-        illuminance: -1,
-        supported: 'AmbientLightSensor' in getWindow(),
-    });
-
-    if (lightState.supported) {
-        const sensor = new AmbientLightSensor();
-
-        sensor.onreading = () => {
-            lightState.illuminance = sensor.illuminance;
-            wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
-        };
-
-        sensor.onerror = event => {
-            lightState.supported = false;
-            wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
-        };
-
-        sensor.start();
-    } else {
-        wwLib.wwVariable.updateValue(`${pluginId}-ambientLight`, toRaw(lightState));
-    }
-
-    return lightState;
-};
-
-export const listenDeviceMotion = pluginId => {
+export const listenDeviceMotion = async pluginId => {
     const motionState = reactive({
         acceleration: { x: -1, y: -1, z: -1 },
         accelerationIncludingGravity: { x: -1, y: -1, z: -1 },
@@ -181,12 +127,11 @@ export const listenDeviceMotion = pluginId => {
     };
 
     if (motionState.supported) {
+        getWindow().removeEventListener('devicemotion', handleDeviceMotion);
         getWindow().addEventListener('devicemotion', handleDeviceMotion);
-        wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
-    } else {
-        wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
     }
 
+    wwLib.wwVariable.updateValue(`${pluginId}-deviceMotion`, toRaw(motionState));
     return motionState;
 };
 
@@ -195,3 +140,21 @@ export const getDeviceInfo = pluginId => {
     wwLib.wwVariable.updateValue(`${pluginId}-deviceInfo`, deviceInfo);
     return deviceInfo;
 };
+
+// export const listenPwa = pluginId => {
+//     const info =
+//         'iOS may not reliably report the installed state of this PWA. Please be aware of potential limitations in tracking its installation status on iOS devices.';
+
+//     wwLib.wwVariable.updateValue(`${pluginId}-isPwaInstalled`, {
+//         isInstalled: isAppInstalled(),
+//         info,
+//     });
+
+//     return isInstalled;
+// };
+
+// const isAppInstalled = () => {
+//     const IOS = navigator.userAgent.match(/iPhone|iPad|iPod/);
+//     const standalone = window.matchMedia('(display-mode: standalone)').matches;
+//     return !!(standalone || (IOS && !navigator.userAgent.match(/Safari/)));
+// };

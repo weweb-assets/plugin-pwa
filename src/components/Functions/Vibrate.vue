@@ -1,13 +1,15 @@
 <template>
-    <wwEditorInputRow
-        label="Vibration Pattern"
-        type="array"
-        :model-value="vibrate_pattern"
-        bindable
-        required
-        placeholder="Enter vibration pattern"
-        @update:modelValue="setPattern"
-    />
+    <div>
+        <wwEditorInputRow
+            label="Vibration Pattern"
+            type="array"
+            :model-value="vibrate_pattern"
+            bindable
+            required
+            placeholder="Enter vibration pattern"
+            @update:modelValue="setPattern"
+        />
+    </div>
 </template>
 
 <script>
