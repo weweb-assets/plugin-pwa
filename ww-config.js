@@ -1,13 +1,5 @@
 export default {
     editor: {
-        settings: [
-            {
-                label: 'Configuration',
-                icon: 'advanced',
-                edit: () => import('./src/components/Configuration/SettingsEdit.vue'),
-                summary: () => import('./src/components/Configuration/SettingsSummary.vue'),
-            },
-        ],
         designSystemId: '"2158285b-a489-44b6-be61-5cab2bec46fb"',
     },
     variables: [
