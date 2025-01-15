@@ -1,6 +1,6 @@
 export default {
     editor: {
-        designSystemId: '"2158285b-a489-44b6-be61-5cab2bec43fb"',
+        designSystemId: '"2158285b-a489-44b6-be61-5cab2bec46fb"',
     },
     variables: [
         { name: 'network', value: 'network', type: 'object', defaultValue: null },
