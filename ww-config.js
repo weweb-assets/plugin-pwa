@@ -36,6 +36,8 @@ export default {
             name: 'Geolocate',
             code: 'geolocation',
             isAsync: true,
+            deprecated: true,
+            deprecatedMessage: 'This action is deprecated. Use the native "Get user\'s location" action instead.',
             keywords: ['Android', 'iOS'],
         },
         {

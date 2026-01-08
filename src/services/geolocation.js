@@ -12,7 +12,7 @@ export async function geolocation() {
             coords: {
                 accuracy: response.coords.accuracy,
                 altitude: response.coords.altitude,
-                altitudeAccurary: response.coords.altitudeAccurary,
+                altitudeAccuracy: response.coords.altitudeAccuracy,
                 heading: response.coords.heading,
                 latitude: response.coords.latitude,
                 longitude: response.coords.longitude,
