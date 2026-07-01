@@ -12,35 +12,49 @@ export async function showNotification({
         throw new Error('Notifications are not available.');
     }
 
-    try {
-        const permission = await Notification.requestPermission();
-        if (permission !== 'granted') {
-            throw new Error('Notification permission denied.');
-        }
+    let permission = Notification.permission;
+    if (permission === 'default') {
+        permission = await Notification.requestPermission();
+    }
+    if (permission !== 'granted') {
+        throw new Error('Notification permission denied.');
+    }
 
-        const options = {
-            body: notif_body,
-            icon: notif_icon,
-            image: notif_image,
-            tag: notif_tag,
-            data: notif_data,
-            vibrate: notif_vibrate,
-            actions: notif_actions,
-        };
+    const options = {
+        body: notif_body,
+        icon: notif_icon,
+        image: notif_image,
+        tag: notif_tag,
+        data: notif_data,
+        vibrate: notif_vibrate,
+        actions: notif_actions,
+    };
+    if (notif_tag) {
+        options.renotify = true;
+    }
 
-        let registration = null;
-        if ('serviceWorker' in navigator) {
+    let registration = null;
+    if ('serviceWorker' in navigator) {
+        try {
             registration =
                 (await navigator.serviceWorker.getRegistration()) ||
-                (await navigator.serviceWorker.ready);
+                (await Promise.race([
+                    navigator.serviceWorker.ready,
+                    new Promise(resolve => setTimeout(() => resolve(null), 1500)),
+                ]));
+        } catch (error) {
+            registration = null;
         }
+    }
 
+    try {
         if (registration) {
             await registration.showNotification(notif_title, options);
         } else {
             new Notification(notif_title, options);
         }
     } catch (error) {
-        throw new Error(error, 'Error while sending notification.');
+        console.error('[plugin-pwa] showNotification failed:', error);
+        throw error;
     }
 }
