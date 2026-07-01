@@ -18,21 +18,27 @@ export async function showNotification({
             throw new Error('Notification permission denied.');
         }
 
-        const registration = await navigator.serviceWorker.getRegistration();
-        if (registration) {
-            const options = {
-                body: notif_body,
-                icon: notif_icon,
-                image: notif_image,
-                tag: notif_tag,
-                data: notif_data,
-                vibrate: notif_vibrate,
-                actions: notif_actions,
-            };
+        const options = {
+            body: notif_body,
+            icon: notif_icon,
+            image: notif_image,
+            tag: notif_tag,
+            data: notif_data,
+            vibrate: notif_vibrate,
+            actions: notif_actions,
+        };
 
-            registration.showNotification(notif_title, options);
+        let registration = null;
+        if ('serviceWorker' in navigator) {
+            registration =
+                (await navigator.serviceWorker.getRegistration()) ||
+                (await navigator.serviceWorker.ready);
+        }
+
+        if (registration) {
+            await registration.showNotification(notif_title, options);
         } else {
-            throw new Error('Service Worker registration not found.');
+            new Notification(notif_title, options);
         }
     } catch (error) {
         throw new Error(error, 'Error while sending notification.');
