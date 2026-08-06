@@ -19,13 +19,14 @@ export default {
             },
         },
         { name: 'deviceInfo', value: 'deviceInfo', type: 'object', defaultValue: null },
-        // { name: 'isPwaInstalled', value: 'isPwaInstalled', type: 'object', defaultValue: null },
     ],
     actions: [
         {
             name: 'Add To Home Screen',
             code: 'installPwa',
             isAsync: true,
+            deprecated: true,
+            deprecatedMessage: 'This action is deprecated. Use the native "Install PWA" action instead.',
             /* wwEditor:start */
             edit: () => import('./src/components/Functions/AddToHomeScreen.vue'),
             keywords: ['Android'],
@@ -35,12 +36,16 @@ export default {
             name: 'Geolocate',
             code: 'geolocation',
             isAsync: true,
+            deprecated: true,
+            deprecatedMessage: 'This action is deprecated. Use the native "Get user\'s location" action instead.',
             keywords: ['Android', 'iOS'],
         },
         {
             name: 'Share',
             code: 'share',
             isAsync: true,
+            deprecated: true,
+            deprecatedMessage: 'This action is deprecated. Use the native "Share" action instead.',
             /* wwEditor:start */
             edit: () => import('./src/components/Functions/Share.vue'),
             getIsValid({ share_title, share_url }) {
@@ -53,6 +58,8 @@ export default {
             name: 'Vibrate',
             code: 'vibrate',
             isAsync: false,
+            deprecated: true,
+            deprecatedMessage: 'This action is deprecated. Use the native "Vibrate" action instead.',
             /* wwEditor:start */
             edit: () => import('./src/components/Functions/Vibrate.vue'),
             getIsValid({ vibrate_pattern }) {
@@ -65,6 +72,8 @@ export default {
             name: 'Show Notification',
             code: 'showNotification',
             isAsync: true,
+            deprecated: true,
+            deprecatedMessage: 'This action is deprecated. Use the native "Show notification" action instead.',
             /* wwEditor:start */
             edit: () => import('./src/components/Functions/ShowNotification.vue'),
             getIsValid({ notif_title }) {
