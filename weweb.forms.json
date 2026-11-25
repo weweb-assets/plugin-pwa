@@ -1,0 +1,177 @@
+{
+    "schemaVersion": 1,
+    "designSystemId": "2158285b-a489-44b6-be61-5cab2bec46fb",
+    "variables": [
+        {
+            "name": "network",
+            "type": "object"
+        },
+        {
+            "name": "battery",
+            "type": "object"
+        },
+        {
+            "name": "pageVisibility",
+            "type": "boolean"
+        },
+        {
+            "name": "deviceMotion",
+            "type": "object"
+        },
+        {
+            "name": "deviceInfo",
+            "type": "object"
+        }
+    ],
+    "actions": [
+        {
+            "name": "Add To Home Screen",
+            "code": "installPwa",
+            "isAsync": true,
+            "keywords": ["Android"],
+            "form": {
+                "fields": [],
+                "note": "On iOS, open the app in Safari, tap Share, then choose Add to Home Screen."
+            }
+        },
+        {
+            "name": "Geolocate",
+            "code": "geolocation",
+            "isAsync": true,
+            "keywords": ["Android", "iOS"]
+        },
+        {
+            "name": "Share",
+            "code": "share",
+            "isAsync": true,
+            "keywords": ["Android", "iOS"],
+            "form": {
+                "fields": [
+                    {
+                        "key": "share_title",
+                        "label": "Title",
+                        "type": "text",
+                        "bindable": true,
+                        "required": true,
+                        "placeholder": "Enter the title"
+                    },
+                    {
+                        "key": "share_text",
+                        "label": "Text",
+                        "type": "text",
+                        "bindable": true,
+                        "placeholder": "Enter the text"
+                    },
+                    {
+                        "key": "share_url",
+                        "label": "Url",
+                        "type": "text",
+                        "bindable": true,
+                        "required": true,
+                        "placeholder": "Enter the url"
+                    }
+                ]
+            },
+            "validation": "requiredFields"
+        },
+        {
+            "name": "Vibrate",
+            "code": "vibrate",
+            "isAsync": false,
+            "keywords": ["Android"],
+            "form": {
+                "fields": [
+                    {
+                        "key": "vibrate_pattern",
+                        "label": "Vibration Pattern",
+                        "type": "list",
+                        "bindable": true,
+                        "item": {
+                            "type": "number"
+                        },
+                        "required": true,
+                        "minItems": 1,
+                        "placeholder": "Enter vibration pattern"
+                    }
+                ]
+            },
+            "validation": "requiredFields"
+        },
+        {
+            "name": "Show Notification",
+            "code": "showNotification",
+            "isAsync": true,
+            "keywords": ["Android", "iOS"],
+            "form": {
+                "fields": [
+                    {
+                        "key": "notif_title",
+                        "label": "Title",
+                        "type": "text",
+                        "bindable": true,
+                        "required": true,
+                        "placeholder": "Enter notification title"
+                    },
+                    {
+                        "key": "notif_body",
+                        "label": "Body",
+                        "type": "text",
+                        "bindable": true,
+                        "placeholder": "Enter notification body"
+                    },
+                    {
+                        "key": "notif_icon",
+                        "label": "Icon URL",
+                        "type": "text",
+                        "bindable": true,
+                        "placeholder": "Enter icon URL"
+                    },
+                    {
+                        "key": "notif_image",
+                        "label": "Image URL",
+                        "type": "text",
+                        "bindable": true,
+                        "placeholder": "Enter image URL"
+                    },
+                    {
+                        "key": "notif_tag",
+                        "label": "Tag",
+                        "type": "text",
+                        "bindable": true,
+                        "placeholder": "Enter notification tag"
+                    },
+                    {
+                        "key": "notif_data",
+                        "label": "Data (JSON format)",
+                        "type": "text",
+                        "bindable": true,
+                        "placeholder": "Enter notification data"
+                    },
+                    {
+                        "key": "notif_vibrate",
+                        "label": "Vibration Pattern (Array of numbers)",
+                        "type": "list",
+                        "bindable": true,
+                        "item": {
+                            "type": "number"
+                        },
+                        "placeholder": "Enter vibration pattern"
+                    }
+                ]
+            },
+            "validation": "requiredFields"
+        },
+        {
+            "name": "Request Motion Permission",
+            "code": "requestDeviceMotionPermission",
+            "isAsync": true,
+            "keywords": ["Android", "iOS"]
+        },
+        {
+            "name": "Listen Device Motion",
+            "code": "listenDeviceMotion",
+            "isAsync": true,
+            "keywords": ["Android", "iOS"]
+        }
+    ]
+}
